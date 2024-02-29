@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Load n Edit image</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.0/css/all.css" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alwan/dist/css/alwan.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/alwan/dist/js/alwan.min.js"></script>
+    <link rel="stylesheet" href="../css/editor.css">
+    <style>
+        body {
+            min-height: 100vh;
+            background-color: #fdfdfd;
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 80%;
+            min-height: 80px;
+            margin: auto;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 8px;
+            background: #ffffff;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        #load-image label {
+            align-items: center;
+            background: blue;
+            max-width: 200px;
+            padding: 12px 24px;
+            color: #ffffff;
+            border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -ms-border-radius: 5px;
+            -o-border-radius: 5px;
+        }
+
+        img {
+            /* width: 100%; */
+            max-width: 100%;
+            display: block;
+        }
+
+        @media screen and (max-width: 1200px) {}
+
+        @media screen and (max-width: 992px) {}
+
+        @media screen and (max-width: 768px) {}
+
+        @media screen and (max-width: 576px) {}
+    </style>
+</head>
+
+<body>
+    <div id="load-image" style="text-align:center; margin: 5rem 0;">
+        <input type="file" id="fileInput" accept="image/*">
+        <div style="display:inline-block; text-align:center;">
+            <label for="fileInput">
+                <span class="fa fa-upload fa-lg"></span>
+                Choose Image
+            </label>
+        </div>
+    </div>
+
+    <div class="container" id="disp-container"
+        style="width: 90%; max-width:640px; padding: 1rem 0 0 0; margin-top: 2rem; margin-bottom: 2rem; display:none;">
+    </div>
+
+    <div id="editor">
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    <script src="http://rawgit.com/bramstein/fontfaceobserver/master/fontfaceobserver.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="../js/fabric-history.js"></script>
+    <script src="../js/aligning_guidelines.js"></script>
+    <script type="module">
+        import editor from "./js/editor.js";
+
+        function onEditorClose(data) {
+            document.getElementsByClassName("editable-image")[0].src = data.image;
+            document.getElementById("disp-container").style.display = "block";
+        }
+
+        function AddEditableImage(container, image) {
+            let chunk = '<div class="editable-image-container">'
+                + '<div style="padding-bottom:2rem; display:inline-block;">'
+                + '<div style="text-align:right; padding: 0 0 0.5rem 0">'
+                + '<span id="edit-button" class="fa fa-pen-to-square fa-lg" style="color: #888;"></span>'
+                + '</div>'
+                + '<img src="' + image + '" class="editable-image">'
+                + '</div></div>';
+
+            document.getElementById(container).innerHTML = chunk;
+
+            let editButton = document.getElementById('edit-button');
+
+            editButton.onclick = function () {
+                let parentElm = editButton.closest(".editable-image-container");
+                let imgElm = parentElm.querySelector(".editable-image");
+
+                document.getElementById(container).style.display = "none";
+                editor('editor', {
+                    image: imgElm,
+                    backgroundImage: false,
+                    width: 512,
+                    height: 512,
+                    header: true,
+                    headerMenuItems: {
+                        import: true,
+                        export: true,
+                        close: true
+                    }
+                }, onEditorClose);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', function () {
+
+            // Get file input element and image display element
+            const fileInput = document.getElementById('fileInput');
+            const editImage = document.getElementById('edit-image');
+
+            // Listen to the change event on the <input> element
+            fileInput.addEventListener('change', (event) => {
+
+                if (event.target.files.length > 0) {
+                    // Get the selected image file
+                    const imageFile = event.target.files[0];
+                    const reader = new FileReader();
+                    reader.readAsDataURL(imageFile);
+
+                    reader.addEventListener('load', () => {
+                        let thisImage = document.createElement('img');
+                        thisImage.onload = () => {
+                            AddEditableImage("disp-container", reader.result);
+                        }
+
+                        thisImage.src = reader.result;
+                    });
+                }
+                document.getElementById("load-image").style.display = 'none';
+                document.getElementById("disp-container").style.display = 'block';
+            });
+        });
+    </script>
+</body>
+
+</html>
