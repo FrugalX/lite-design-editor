@@ -1,8 +1,8 @@
 # Lite Design Editor
 
-Lite Design Editor is a lightweight, web-based graphics design editor built with JavaScript and fabric.js. It currently supports text, images and rectangles as shapes, with plans to add more shapes in the future. The editor allows import of fabric.js JSON files and offers a minimalist user interface focused on functional support over elegant aesthetics.
+Lite Design Editor is a lightweight, web-based graphics design editor built with JavaScript and fabric.js. It currently supports text, images and rectangles (as shapes), with plans to add more shapes in the future. The editor allows import of fabric.js JSON files and offers a minimalist user interface focused on functional support over elegant aesthetics.
 
-**Please Note: This project is experimental and should be used with caution. It is advised to consider Lite Design Editor as sample code for educational purposes. If you intend to develop a professional graphics design editor based on this repository, please use it as a reference and adapt it to your specific needs with thorough testing and validation.**
+**Please Note: This project is experimental and should be used with caution. It is advised to consider Lite Design Editor as sample code for exploratory purposes. If you intend to develop a professional graphics design editor based on this repository, please use it as a reference and adapt it to your specific needs with thorough testing and validation.**
 
 ## Features
 
@@ -29,6 +29,7 @@ cd lite-design-editor
 - **Adding Shapes:** Click on the rectangle tool from the toolbar to add it.
 - **Editing Shapes:** Select a shape on the canvas to reveal editing options such as resizing, rotating, and styling.
 - **Text Editing:** Click on the text tool from the toolbar to add text. Double click on the text to edit it.
+- **Image Editing:** Click on the image tool from the toolbar to add image. Double click on the image to edit it.
 - **Exporting Designs:** Use the export button to export your design in JSON format and download button for PNG format.
 
 ## Contributing
