@@ -1,15 +1,15 @@
 # Lite Design Editor
 
-Lite Design Editor is a lightweight, web-based graphics design editor built with JavaScript and fabric.js library. It currently supports rectangles as shapes, with plans to add more shapes in the future. The editor allows import of fabric.js JSON files and offers a minimalist user interface focused on functional support over elegant aesthetics.
+Lite Design Editor is a lightweight, web-based graphics design editor built with JavaScript and fabric.js. It currently supports text, images and rectangles as shapes, with plans to add more shapes in the future. The editor allows import of fabric.js JSON files and offers a minimalist user interface focused on functional support over elegant aesthetics.
 
-**Please Note: This project is experimental and should be used with care. It is recommended to use Lite Design Editor as sample code if someone would like to develop a graphics design editor for professional use based on this repository.**
+**Please Note: This project is experimental and should be used with caution. It is advised to consider Lite Design Editor as sample code for educational purposes. If you intend to develop a professional graphics design editor based on this repository, please use it as a reference and adapt it to your specific needs with thorough testing and validation.**
 
 ## Features
 
 - **Simple Interface:** Clean and intuitive user interface for easy navigation and usage.
 - **Canvas Editing:** Utilizes the fabric.js library for powerful canvas editing capabilities.
-- **Basic Tools:** Includes essential tools such as selection, drawing, shapes (currently supporting only rectangles), text, and more.
-- **Export Options:** Supports exporting designs in various formats such as PNG, SVG, and JSON.
+- **Basic Tools:** Includes essential tools such as selection, drawing, shapes (currently supporting only rectangles), text, and images.
+- **Export Options:** Supports exporting and downloading designs in various formats such as JSON, and PNG.
 
 ## Fonts
 
@@ -22,17 +22,18 @@ To get started with Lite Design Editor, simply clone the repository to your loca
 ```bash
 git clone https://github.com/your-username/lite-design-editor.git
 cd lite-design-editor
+```
 
 ## Usage
 
-- **Adding Shapes:** Click on the rectangle tool from the toolbar and then click on the canvas to add it.
+- **Adding Shapes:** Click on the rectangle tool from the toolbar to add it.
 - **Editing Shapes:** Select a shape on the canvas to reveal editing options such as resizing, rotating, and styling.
-- **Text Editing:** Click on the text tool from the toolbar, then click on the canvas to add text. Double click on the text to edit it.
-- **Exporting Designs:** Use the export button to export your design in PNG, SVG, or JSON format.
+- **Text Editing:** Click on the text tool from the toolbar to add text. Double click on the text to edit it.
+- **Exporting Designs:** Use the export button to export your design in JSON format and download button for PNG format.
 
 ## Contributing
 
-You are welcome to improve the repo in any and all possible ways. Please feel free to improve the quality of code, make the UI more elegant and responsive, add more features, and more. If you have any suggestions, bug fixes, or new features you'd like to contribute, please follow these steps:
+Feel free to enhance the repository in any way you see fit. Whether it's refining the codebase, enhancing the user interface for better aesthetics and responsiveness, introducing new features, or any other improvements, your contributions are highly appreciated. If you have any suggestions, bug fixes, or new features you'd like to contribute, please follow these steps:
 
 1. Fork the repository.
 2. Create a new branch for your changes.
@@ -46,7 +47,7 @@ Your contributions are greatly appreciated!
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT License.
 
 ## Acknowledgements
 
