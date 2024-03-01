@@ -49,6 +49,7 @@ export function initToolbar() {
         + '<option value="48">48</option>'
         + '<option value="64">64</option>'
         + '<option value="96">96</option>'
+        + '<option value="128">128</option>'
         + '</select></span>'
         + '</div>'
 
@@ -59,7 +60,7 @@ export function initToolbar() {
         + '</div>'
 
         + '<div class="widget-group entity-tools text-tools">'
-        + '<span id="text-color-btn" class="tool-item" style="border-bottom:3px solid white; padding-bottom:0;"><i class="fa-solid fa-t" title="Text Color"></i></span>'
+        + '<span id="text-color-btn" class="tool-item" style="border-bottom:3px solid blue; padding-bottom:0;"><i class="fa-solid fa-t" title="Text Color"></i></span>'
         + '<span id="text-bgcolor-btn" class="tool-item" style="border-bottom:3px solid rgba(0, 0 , 255, 0.2); padding-bottom:0;" title="Text Background Color"><i class="fa-solid fa-fill"></i></span>'
         + '</div>'
 

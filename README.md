@@ -17,12 +17,22 @@ By default, only fonts supported by browsers are available in Lite Design Editor
 
 ## Getting Started
 
-To get started with Lite Design Editor, simply clone the repository to your local machine and open `index.html` in a web browser. No additional setup is required.
+To get started with Lite Design Editor, follow these steps:
+
+1. Clone the repository to your local machine using Git:
 
 ```bash
 git clone https://github.com/your-username/lite-design-editor.git
 cd lite-design-editor
 ```
+
+2. Open the cloned repository in your preferred code editor. For example, you can open it using Visual Studio Code:
+
+3. In Visual Studio Code, navigate to the index.html file located in the repository.
+
+4. Use the "Go Live" feature of Visual Studio Code to launch a local development server and view the Lite Design Editor in your web browser.
+
+That's it! You're now ready to start using Lite Design Editor.
 
 ## Usage
 
