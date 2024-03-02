@@ -1,7 +1,7 @@
 import initHeader from "./header.js"
 import { initToolbar } from "./toolbox.js"
 import initImage from "./image.js"
-import initRect from "./shapes.js"
+import initShapes from "./shapes.js"
 import initText from "./text.js"
 import configCanvas from "./canvas-init.js"
 
@@ -23,6 +23,6 @@ export default function editor(containerId, config, callback) {
     configCanvas(canvas, container, config, callback);
     initToolbar(canvas);
     initImage(canvas);
-    initRect(canvas);
+    initShapes(canvas);
     initText(canvas);
 }

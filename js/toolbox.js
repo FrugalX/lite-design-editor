@@ -1,4 +1,4 @@
-export let rectColorWidget, rectfillColorWidget, textColorWidget, textbgColorWidget;
+export let shapeColorWidget, shapefillColorWidget, textColorWidget, textbgColorWidget;
 
 export function initToolbar(canvas) {
     let toolbox = document.getElementById("toolbox");
@@ -12,6 +12,8 @@ export function initToolbar(canvas) {
         + '<input type="file" id="img-input" class="img-input"  accept="image/*"/><label for="img-input">'
         + '<span class="tool-item img-btn" title="Add Image"><i class="fa-solid fa-image fa-lg"></i></span></label>'
         + '<span class="tool-item rect-btn" title="Add Rectangle"><i class="fa-regular fa-square fa-lg"></i></span>'
+        + '<span class="tool-item circle-btn" title="Add Circle"><i class="fa-regular fa-circle fa-lg"></i></span>'
+        + '<span class="tool-item templates-btn" title="To be done"><i class="fa fa-file"></i></span>'
         + '</div>'
 
         + '<div class="widget-group entity-tools text-tools">'
@@ -55,8 +57,8 @@ export function initToolbar(canvas) {
         + '</div>'
 
         + '<div class="widget-group entity-tools shape-tools">'
-        + '<span id="rect-color-btn" class="tool-item" style="border-bottom:3px solid white; padding-bottom:0;"><i class="fa-regular fa-square"></i></span>'
-        + '<span id="rect-fillcolor-btn" class="tool-item" style="border-bottom:3px solid rgba(0, 0 , 255, 0.8); padding-bottom:0;"><i class="fa-solid fa-fill"></i></span>'
+        + '<span id="shape-color-btn" class="tool-item" style="border-bottom:3px solid white; padding-bottom:0;"><i class="fa fa-shapes"></i></span>'
+        + '<span id="shape-fillcolor-btn" class="tool-item" style="border-bottom:3px solid rgba(0, 0 , 255, 0.8); padding-bottom:0;"><i class="fa-solid fa-fill"></i></span>'
         + '<span class="tool-item" title="Border width">'
         + '<select name="border-weight" class="border-weight">'
         + '<option value="0">0</option>'
@@ -104,11 +106,16 @@ export function initToolbar(canvas) {
         + '<div class="widget-group">'
         + '<span class="trash-btn tool-item"><i class="fa-solid fa-trash"></i></span>'
         + '</div>'
+        
+        + '<div class="widget-group" style="margin-left:2rem; font-size:15px; background-color:#fefefe">'
+        + '<span class="background-btn tool-item" title="To be done">Background</span>'
+        + '<span class="resize-btn tool-item" title="To be done">Resize</span>'
+        + '</div>'
 
     textColorWidget = new Alwan('#text-color-btn', { preset: false, toggleSwatches: true });
     textbgColorWidget = new Alwan('#text-bgcolor-btn', { preset: false });
-    rectColorWidget = new Alwan('#rect-color-btn', { preset: false, toggleSwatches: true });
-    rectfillColorWidget = new Alwan('#rect-fillcolor-btn', { preset: false });
+    shapeColorWidget = new Alwan('#shape-color-btn', { preset: false, toggleSwatches: true });
+    shapefillColorWidget = new Alwan('#shape-fillcolor-btn', { preset: false });
 }
 
 export function updateToolbarOnElementSelect(e, canvas) {
@@ -126,7 +133,7 @@ export function updateToolbarOnElementSelect(e, canvas) {
         textColorWidget.setColor(canvas.getActiveObject().get('stroke'));
         textbgColorWidget.setColor(canvas.getActiveObject().get('backgroundColor'));
     }
-    else if (e.selected[0].get('type') === 'rect') {
+    else if (e.selected[0].get('type') === 'rect'|| e.selected[0].get('type') === 'circle') {
         document.querySelectorAll('.entity-tools').forEach(function (el) {
             el.style.display = 'none';
         });
@@ -134,10 +141,10 @@ export function updateToolbarOnElementSelect(e, canvas) {
             el.style.display = 'block';
         });
         document.getElementsByClassName("border-weight")[0].value = String(canvas.getActiveObject().get('strokeWidth'));
-        document.getElementById('rect-color-btn').style.borderBottomColor = canvas.getActiveObject().get('stroke');
-        document.getElementById('rect-fillcolor-btn').style.borderBottomColor = canvas.getActiveObject().get('fill');
-        rectColorWidget.setColor(canvas.getActiveObject().get('stroke'));
-        rectfillColorWidget.setColor(canvas.getActiveObject().get('fill'));
+        document.getElementById('shape-color-btn').style.borderBottomColor = canvas.getActiveObject().get('stroke');
+        document.getElementById('shape-fillcolor-btn').style.borderBottomColor = canvas.getActiveObject().get('fill');
+        shapeColorWidget.setColor(canvas.getActiveObject().get('stroke'));
+        shapefillColorWidget.setColor(canvas.getActiveObject().get('fill'));
     }
     else if (e.selected[0].get('type') === 'image') {
         document.querySelectorAll('.entity-tools').forEach(function (el) {

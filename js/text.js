@@ -2,7 +2,6 @@ import { textColorWidget, textbgColorWidget } from "./toolbox.js"
 import { ldeDocument } from "./canvas-init.js";
 
 export default function initText(canvas) {
-    // Add text
     let addText = document.getElementsByClassName("add-text")[0];
     addText.onclick = function () {
         let text = new fabric.Textbox('Double click to edit text!', {
