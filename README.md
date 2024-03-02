@@ -2,7 +2,7 @@
 
 Lite Design Editor is a lightweight, web-based graphics design editor built with JavaScript and fabric.js. It currently supports text, images and rectangles (as shapes), with plans to add more shapes in the future. The editor allows import of fabric.js JSON files and offers a minimalist user interface focused on functional support over elegant aesthetics.
 
-**Please Note: This project is experimental and should be used with caution. It is advised to consider Lite Design Editor as sample code for exploratory purposes. If you intend to develop a professional graphics design editor based on this repository, please use it as a reference and adapt it to your specific needs with thorough testing and validation.**
+*Please Note: This project is experimental and should be used with caution. It is advised to consider Lite Design Editor as sample code for exploratory purposes. If you intend to develop a professional graphics design editor based on this repository, please use it as a reference and adapt it to your specific needs with thorough testing and validation.*
 
 ## Features
 

@@ -1,5 +1,5 @@
 import { textColorWidget, textbgColorWidget } from "./toolbox.js"
-import { ldeDocument } from "./canvas-utils.js";
+import { ldeDocument } from "./canvas-init.js";
 
 export default function initText(canvas) {
     // Add text
@@ -38,7 +38,25 @@ export default function initText(canvas) {
 
     // change text font size
     let fontSize = document.getElementsByClassName("font-size")[0];
-    fontSize.onclick = function () {
+    fontSize.onchange = function () {
+        if (canvas.getActiveObject()) {
+            canvas.getActiveObject().set('fontSize', fontSize.value);
+            canvas.renderAll();
+        }
+    }
+    let incFontSize = document.getElementsByClassName("inc-fontsize")[0];
+    incFontSize.onclick = function () {
+        let fontSize = document.getElementsByClassName("font-size")[0];
+        fontSize.stepUp();
+        if (canvas.getActiveObject()) {
+            canvas.getActiveObject().set('fontSize', fontSize.value);
+            canvas.renderAll();
+        }
+    }
+    let decFontSize = document.getElementsByClassName("dec-fontsize")[0];
+    decFontSize.onclick = function () {
+        let fontSize = document.getElementsByClassName("font-size")[0];
+        fontSize.stepDown();
         if (canvas.getActiveObject()) {
             canvas.getActiveObject().set('fontSize', fontSize.value);
             canvas.renderAll();

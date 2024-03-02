@@ -3,8 +3,7 @@ import { initToolbar } from "./toolbox.js"
 import initImage from "./image.js"
 import initRect from "./shapes.js"
 import initText from "./text.js"
-import initUtils from "./utils.js"
-import configCanvas from "./canvas-utils.js"
+import configCanvas from "./canvas-init.js"
 
 export default function editor(containerId, config, callback) {
 
@@ -22,9 +21,8 @@ export default function editor(containerId, config, callback) {
     initHeader(config);
     let canvas = new fabric.Canvas("editorCanvas", { preserveObjectStacking: true, backgroundColor: "#fff" });
     configCanvas(canvas, container, config, callback);
-    initToolbar();
+    initToolbar(canvas);
     initImage(canvas);
     initRect(canvas);
     initText(canvas);
-    initUtils(canvas);
 }

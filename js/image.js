@@ -1,4 +1,4 @@
-import { ldeDocument } from "./canvas-utils.js";
+import { ldeDocument } from "./canvas-init.js";
 
 export default function initImage(canvas) {
     // Add image

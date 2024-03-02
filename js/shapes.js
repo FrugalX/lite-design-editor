@@ -1,5 +1,5 @@
 import { rectColorWidget, rectfillColorWidget } from "./toolbox.js"
-import { ldeDocument } from "./canvas-utils.js";
+import { ldeDocument } from "./canvas-init.js";
 
 export default function initRect(canvas) {
     let addRect = document.getElementsByClassName("rect-btn")[0];
