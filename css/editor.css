@@ -28,7 +28,7 @@
 
 .toolboxContainer {
     background-color: white;
-    padding-top: 1px;
+    padding-top: 4px;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -69,9 +69,10 @@
     color: #777;
 }
 
-.sliderContainer {
-    padding: 1rem;
-    background-color: #dedede;
+.one-more-bar {
+    padding: 0.8rem;
+    background-color: #eee;
+    min-height: 1rem;
 }
 
 input[type='range'] {

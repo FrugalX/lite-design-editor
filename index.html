@@ -65,28 +65,28 @@
 </head>
 
 <body>
-    <div id="editor">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
-        <script type="module" src="../js/fontfaceobserver.js"></script>
-        <script src="../js/fabric-history.js"></script>
-        <script src="../js/aligning_guidelines.js"></script>
-        <script type="module">
-            import editor from "./js/editor.js";
+    <div id="editor"></div>
 
-            editor('editor', {
-                backgroundImage: true,
-                width: 512,
-                height: 512,
-                header: true,
-                headerMenuItems: {
-                    import: true,
-                    export: true,
-                    close: false
-                }
-            });
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script type="module" src="../js/fontfaceobserver.js"></script>
+    <script src="../js/fabric-history.js"></script>
+    <script src="../js/aligning_guidelines.js"></script>
+    <script type="module">
+        import editor from "./js/editor.js";
 
-        </script>
+        editor('editor', {
+            width: 512,
+            height: 512,
+            header: true,
+            headerMenuItems: {
+                import: true,
+                export: true,
+                close: false
+            }
+        });
+
+    </script>
 </body>
 
 </html>

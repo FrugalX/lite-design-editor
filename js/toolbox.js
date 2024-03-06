@@ -1,4 +1,4 @@
-export let shapeColorWidget, shapefillColorWidget, textColorWidget, textbgColorWidget;
+export let canvasbgColorWidget, shapeColorWidget, shapefillColorWidget, textColorWidget, textbgColorWidget;
 
 export function initToolbar(canvas) {
     let toolbox = document.getElementById("toolbox");
@@ -11,9 +11,7 @@ export function initToolbar(canvas) {
         + '<span class="tool-item add-text" title="Add Text"><i class="fa-solid fa-t fa-lg"></i></span>'
         + '<input type="file" id="img-input" class="img-input"  accept="image/*"/><label for="img-input">'
         + '<span class="tool-item img-btn" title="Add Image"><i class="fa-solid fa-image fa-lg"></i></span></label>'
-        + '<span class="tool-item rect-btn" title="Add Rectangle"><i class="fa-regular fa-square fa-lg"></i></span>'
-        + '<span class="tool-item circle-btn" title="Add Circle"><i class="fa-regular fa-circle fa-lg"></i></span>'
-        + '<span class="tool-item templates-btn" title="To be done"><i class="fa fa-file"></i></span>'
+        + '<span class="tool-item shapes-btn" title="Add Shapes"><i class="fa fa-shapes fa-lg"></i></span>'
         + '</div>'
 
         + '<div class="widget-group entity-tools text-tools">'
@@ -54,6 +52,11 @@ export function initToolbar(canvas) {
         + '<span class="tool-item center-align"><i class="fa-solid fa-align-center"></i></span>'
         + '<span class="tool-item right-align"><i class="fa-solid fa-align-right"></i></span>'
         + '<span class="tool-item justify-align"><i class="fa-solid fa-align-justify"></i></span>'
+        + '</div>'
+
+        + '<div class="widget-group entity-tools shape-tools">'
+        + '<span class="tool-item rect-btn" title="Add Rectangle"><i class="fa-regular fa-square fa-lg"></i></span>'
+        + '<span class="tool-item circle-btn" title="Add Circle"><i class="fa-regular fa-circle fa-lg"></i></span>'
         + '</div>'
 
         + '<div class="widget-group entity-tools shape-tools">'
@@ -106,12 +109,9 @@ export function initToolbar(canvas) {
         + '<div class="widget-group">'
         + '<span class="trash-btn tool-item"><i class="fa-solid fa-trash"></i></span>'
         + '</div>'
-        
-        + '<div class="widget-group" style="margin-left:2rem; font-size:15px; background-color:#fefefe">'
-        + '<span class="background-btn tool-item" title="To be done">Background</span>'
-        + '<span class="resize-btn tool-item" title="To be done">Resize</span>'
-        + '</div>'
 
+    Alwan.setDefaults({ swatches: ['red', 'green', 'blue', 'cyan', 'magenta', 'black', 'white'] });
+    canvasbgColorWidget = new Alwan('#canvas-bgcolor-btn', { preset: false, toggleSwatches: true });
     textColorWidget = new Alwan('#text-color-btn', { preset: false, toggleSwatches: true });
     textbgColorWidget = new Alwan('#text-bgcolor-btn', { preset: false });
     shapeColorWidget = new Alwan('#shape-color-btn', { preset: false, toggleSwatches: true });
@@ -133,7 +133,7 @@ export function updateToolbarOnElementSelect(e, canvas) {
         textColorWidget.setColor(canvas.getActiveObject().get('stroke'));
         textbgColorWidget.setColor(canvas.getActiveObject().get('backgroundColor'));
     }
-    else if (e.selected[0].get('type') === 'rect'|| e.selected[0].get('type') === 'circle') {
+    else if (e.selected[0].get('type') === 'rect' || e.selected[0].get('type') === 'circle') {
         document.querySelectorAll('.entity-tools').forEach(function (el) {
             el.style.display = 'none';
         });
@@ -198,7 +198,7 @@ function initCommonBtns(canvas) {
             canvas.renderAll();
         }
     }
-       
+
     let sendbackBtn = document.getElementsByClassName("sendback-btn")[0];
     sendbackBtn.onclick = function () {
         if (canvas.getActiveObject()) {

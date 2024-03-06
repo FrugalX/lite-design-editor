@@ -1,4 +1,4 @@
-import { textColorWidget, textbgColorWidget } from "./toolbox.js"
+import { textColorWidget, textbgColorWidget } from "./toolbox.js";
 import { ldeDocument } from "./canvas-init.js";
 
 export default function initText(canvas) {

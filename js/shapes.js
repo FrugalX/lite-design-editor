@@ -2,6 +2,16 @@ import { shapeColorWidget, shapefillColorWidget } from "./toolbox.js"
 import { ldeDocument } from "./canvas-init.js";
 
 export default function initShapes(canvas) {
+    let addShapes = document.getElementsByClassName("shapes-btn")[0];
+    addShapes.onclick = function () {
+        document.querySelectorAll('.entity-tools').forEach(function (el) {
+            el.style.display = 'none';
+        });
+        document.querySelectorAll('.shape-tools').forEach(function (el) {
+            el.style.display = 'block';
+        });
+    }
+
     let addRect = document.getElementsByClassName("rect-btn")[0];
     addRect.onclick = function () {
         let rect = new fabric.Rect({

@@ -1,5 +1,5 @@
 
-import { updateToolbarOnElementSelect, onElementDeselect } from "./toolbox.js"
+import { updateToolbarOnElementSelect, onElementDeselect, canvasbgColorWidget } from "./toolbox.js"
 
 var fontList = [
     "Arial",
@@ -34,6 +34,8 @@ export default function configCanvas(canvas, container, config, callback) {
         ldeDocument.height = config.height;
     }
     canvas.setDimensions({ width: ldeDocument.width, height: ldeDocument.height });
+    var sizeDisplay = document.getElementById("sizeDisplay");
+    sizeDisplay.innerHTML = ldeDocument.width + ' x ' + ldeDocument.height;
 
     var sliderRange = document.getElementById("sliderRange");
     sliderRange.value = 100;
@@ -55,7 +57,6 @@ export default function configCanvas(canvas, container, config, callback) {
     }
 
     // Set background image
-
     if (config.image !== undefined) {
         let image = new fabric.Image(config.image, {
             left: 0,
@@ -93,7 +94,11 @@ export default function configCanvas(canvas, container, config, callback) {
 
     canvas.historyInit();
     //canvas.offHistory();
-    Alwan.setDefaults({ swatches: ['red', 'green', 'blue', 'cyan', 'magenta', 'black', 'white'] });
+
+    canvasbgColorWidget.on('change', (ev) => {
+        canvas.backgroundColor = ev.hex;
+        canvas.renderAll();
+    })
 
     // Download
     let downloadBtn = document.getElementById("download-btn");
@@ -169,6 +174,8 @@ export default function configCanvas(canvas, container, config, callback) {
                 canvas.setDimensions({ width: json.width, height: json.height });
                 ldeDocument.height = json.height;
                 ldeDocument.width = json.width;
+                var sizeDisplay = document.getElementById("sizeDisplay");
+                sizeDisplay.innerHTML = ldeDocument.width + ' x ' + ldeDocument.height;
 
                 var sliderRange = document.getElementById("sliderRange");
                 sliderRange.value = 100;
