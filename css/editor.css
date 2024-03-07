@@ -2,7 +2,7 @@
     margin: auto;
     text-align: center;
     background-color: #fff;
-    padding: 0 0 2rem 0;
+    padding: 0 0 0 0;
 }
 
 #header {
@@ -214,4 +214,50 @@ input[type='range'] {
     font-size: 14px;
     height: 1.25rem;
     text-align: center;
+}
+
+/* https://codepen.io/DeolaJ/pen/xvjbKY */
+.grid-container {
+    width: 100%;
+    margin: 0 auto;
+    height: 100vh;
+    display: flex;
+    transition: 1s ease;
+}
+
+.sidebar {
+    width: 25%;
+    height: 100vh;
+    transition:0.5s ease;
+    position: relative;
+    border-left: 1px solid #ccc;
+}
+
+.main-content {
+    width: 75%;
+    height: 100vh;
+    background-color: #fefefe;
+    transition: 0.5s ease;
+}
+
+.main-content_large {
+    width: 100%;
+}
+
+.sidebar_small {
+    width: 0%;
+}
+
+.collapse-button {
+    position: absolute;
+    border: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    left: 15px;
+    top: 10px;
+    color: gray;
+    background-color: rgba(255, 255, 255, 0);
+    transform: translateX(-50%);
+    cursor: pointer;
 }
