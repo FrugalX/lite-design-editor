@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>lite-design-editor</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.0/css/all.css" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alwan/dist/css/alwan.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/alwan/dist/js/alwan.min.js"></script>
+    <link rel="stylesheet" href="../css/editor.css">
+    <style>
+        body {
+            min-height: 100vh;
+            background-color: #fdfdfd;
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 80%;
+            min-height: 80px;
+            margin: auto;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 8px;
+            background: #ffffff;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        #load-image label {
+            align-items: center;
+            background: blue;
+            max-width: 200px;
+            padding: 12px 24px;
+            color: #ffffff;
+            border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -ms-border-radius: 5px;
+            -o-border-radius: 5px;
+        }
+
+        img {
+            /* width: 100%; */
+            max-width: 100%;
+            display: block;
+        }
+
+        @media screen and (max-width: 1200px) {}
+
+        @media screen and (max-width: 992px) {}
+
+        @media screen and (max-width: 768px) {}
+
+        @media screen and (max-width: 576px) {}
+    </style>
+</head>
+
+<body>
+    <div id="editor">
+        <canvas id="c" width="500" height="500" style="border:1px solid #aaa"></canvas>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script>
+        (function () {
+            var canvas = new fabric.Canvas('c');
+            fabric.Object.prototype.transparentCorners = false;
+            canvas.preserveObjectStacking = true;
+
+            fabric.Image.fromURL('./images/pradippati.png', function (img) {
+                var width = canvas.width/4;
+                var height = canvas.height/3;
+                var left = canvas.width/2 - width/2;
+                var top = canvas.height/2 - height/2;
+                var path = 'M ' + left + ' ' + top +  ' L ' + (left+width) + ' ' + top + ' L ' 
+                + (left+width) + ' ' + (top+height) +' L ' + left + ' ' + (top+height) + ' Z';
+
+                var shell = new fabric.Path(path, {
+                    fill: '',
+                    stroke: 'blue',
+                    strokeWidth: 0,
+                    scaleX: 1,
+                    scaleY: 1,
+                    cornerSize: 12,
+                    cornerStyle: 'circle'
+                });
+                var clipPath = new fabric.Path(path, {
+                    absolutePositioned: true,
+                    scaleX: 1,
+                    scaleY: 1
+                });
+                shell.setControlsVisibility({
+                    mtr: false
+                });
+
+                img.set({
+                    left: 0,
+                    top: 0,
+                    clipPath: clipPath
+                });
+                canvas.add(img);
+                canvas.setActiveObject(img);
+
+                shell.on('moving', ({ e, transform, pointer }) => {
+                    //  only because they are absolutePositioned
+                    clipPath.setPositionByOrigin(shell.getCenterPoint(), 'center', 'center');
+                    img.set('dirty', true);
+                });
+                shell.on('rotating', () => {
+                    clipPath.set({ angle: shell.angle });
+                    img.set('dirty', true);
+                });
+                shell.on('scaling', () => {
+                    clipPath.set({ left: shell.left, top: shell.top, scaleX: shell.scaleX, scaleY: shell.scaleY });
+                    img.set('dirty', true);
+                });
+
+                canvas.add(shell);
+            });
+        })();
+    </script>
+</body>
+
+</html>

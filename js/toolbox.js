@@ -79,7 +79,7 @@ export function initToolbar(canvas) {
         + '<span class="tool-item img-replace-btn" title="Replace Image"><i class="fa-solid fa-exchange"></i></span></label>'
         + '<span class="img-vert-flip-btn tool-item"><i class="fa-solid fa-left-right"></i></span>'
         + '<span class="img-horz-flip-btn tool-item"><i class="fa-solid fa-up-down"></i></span>'
-        + '<!--span class="img-crop-btn tool-item"><i class="fa-solid fa-crop"></i></span-->'
+        + '<span class="img-mask-btn tool-item" title="Add Mask"><i class="fa-solid fa-mask"></i></span>'
         + '</div>'
         + '<div class="dropdown">'
         + '<div><span class="img-filters-btn tool-item">'
@@ -218,7 +218,12 @@ function initCommonBtns(canvas) {
     let trashBtn = document.getElementsByClassName("trash-btn")[0];
     trashBtn.onclick = function () {
         if (canvas.getActiveObject()) {
-            canvas.remove(canvas.getActiveObject());
+            let obj = canvas.getActiveObject();
+            if (obj && !obj.isEditing) {
+                if (obj.get('clippedObj') !== undefined)
+                    obj.get('clippedObj').set({clipPath: ''});
+                canvas.remove(obj);
+            }
             canvas.renderAll();
         }
     }
@@ -229,6 +234,8 @@ function initCommonBtns(canvas) {
         if (key === "Delete") {
             let obj = canvas.getActiveObject();
             if (obj && !obj.isEditing) {
+                if (obj.get('clippedObj') !== undefined)
+                    obj.get('clippedObj').set({clipPath: ''});
                 canvas.remove(obj);
             }
         }

@@ -9,7 +9,7 @@ export default function initImage(canvas) {
             reader.readAsDataURL(imgFile);
 
             reader.addEventListener('load', () => {
-                console.log(ldeDocument)
+                //console.log(ldeDocument)
                 let thisImage = document.createElement('img');
                 thisImage.onload = () => {
                     let imgInstance = new fabric.Image(thisImage, {
@@ -59,7 +59,7 @@ export default function initImage(canvas) {
                         ml: false,
                         mr: false
                     });
-                    
+
                     let index = canvas.getObjects().indexOf(canvas.getActiveObject());
                     console.log(index)
                     canvas.remove(canvas.getActiveObject());
@@ -91,6 +91,67 @@ export default function initImage(canvas) {
         }
     }
 
+    let imgMask = document.getElementsByClassName("img-mask-btn")[0];
+    imgMask.onclick = function () {
+        let obj = canvas.getActiveObject();
+        console.log(obj.originX, obj.left, obj.top, obj.width, obj.height)
+        var rect = obj.getBoundingRect();
+        if (obj && obj.get('type') === "image") {
+            var widthFactor = 0.6;
+            var width = rect.width*widthFactor;
+            var height = rect.height*widthFactor;
+            var left = rect.left + rect.width*(1-widthFactor)/2;
+            var top = rect.top + rect.height*(1-widthFactor)/2;
+            var path = 'M ' + left + ' ' + top +  ' L ' + (left+width) + ' ' + top + ' L ' 
+            + (left+width) + ' ' + (top+height) +' L ' + left + ' ' + (top+height) + ' Z';
+
+            var shell = new fabric.Path(path, {
+                fill: '',
+                stroke: 'blue',
+                strokeWidth: 0,
+                scaleX: 1,
+                scaleY: 1,
+                cornerSize: 12,
+                transparentCorners: false,
+                cornerStyle: 'circle',
+                delete: false
+            });
+            var clipPath = new fabric.Path(path, {
+                absolutePositioned: true,
+                scaleX: 1,
+                scaleY: 1
+            });
+            shell.setControlsVisibility({
+                mtr: false
+            });
+
+            obj.set({
+                clipPath: clipPath
+            });
+
+            shell.set({
+                clippedObj: obj
+            });
+
+            shell.on('moving', ({ e, transform, pointer }) => {
+                //  only because they are absolutePositioned
+                clipPath.setPositionByOrigin(shell.getCenterPoint(), 'center', 'center');
+                obj.set('dirty', true);
+            });
+            shell.on('rotating', () => {
+                clipPath.set({ angle: shell.angle });
+                obj.set('dirty', true);
+            });
+            shell.on('scaling', () => {
+                clipPath.set({ left: shell.left, top: shell.top, scaleX: shell.scaleX, scaleY: shell.scaleY });
+                obj.set('dirty', true);
+            });
+
+            canvas.add(shell);
+        }
+    }
+
+    // transparency
     let transparencyScale = document.getElementsByClassName("transparency-slider")[0];
     transparencyScale.addEventListener("input", (event) => {
         let obj = canvas.getActiveObject();
