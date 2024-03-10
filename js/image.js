@@ -96,12 +96,13 @@ export default function initImage(canvas) {
         let obj = canvas.getActiveObject();
         console.log(obj.originX, obj.left, obj.top, obj.width, obj.height)
         var rect = obj.getBoundingRect();
+        var zoomFactor = ldeDocument.width/canvas.width;
         if (obj && obj.get('type') === "image") {
             var widthFactor = 0.6;
-            var width = rect.width*widthFactor;
-            var height = rect.height*widthFactor;
-            var left = rect.left + rect.width*(1-widthFactor)/2;
-            var top = rect.top + rect.height*(1-widthFactor)/2;
+            var width = rect.width*widthFactor*zoomFactor;
+            var height = rect.height*widthFactor*zoomFactor;
+            var left = (rect.left + rect.width*(1-widthFactor)/2)*zoomFactor;
+            var top = (rect.top + rect.height*(1-widthFactor)/2)*zoomFactor;
             var path = 'M ' + left + ' ' + top +  ' L ' + (left+width) + ' ' + top + ' L ' 
             + (left+width) + ' ' + (top+height) +' L ' + left + ' ' + (top+height) + ' Z';
 
