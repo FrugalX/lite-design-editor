@@ -94,7 +94,6 @@ export default function initImage(canvas) {
     let imgMask = document.getElementsByClassName("img-mask-btn")[0];
     imgMask.onclick = function () {
         let obj = canvas.getActiveObject();
-        console.log(obj.originX, obj.left, obj.top, obj.width, obj.height)
         var rect = obj.getBoundingRect();
         var zoomFactor = ldeDocument.width/canvas.width;
         if (obj && obj.get('type') === "image") {
