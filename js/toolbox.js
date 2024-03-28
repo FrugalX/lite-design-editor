@@ -107,6 +107,7 @@ export function initToolbar(canvas) {
         + '</div>'
 
         + '<div class="widget-group">'
+        + '<span class="clone-btn tool-item" title="Clone" style="color:blue"><i class="fa-solid fa-clone"></i></span>'
         + '<span class="trash-btn tool-item"><i class="fa-solid fa-trash"></i></span>'
         + '</div>'
 
@@ -221,8 +222,24 @@ function initCommonBtns(canvas) {
             let obj = canvas.getActiveObject();
             if (obj && !obj.isEditing) {
                 if (obj.get('clippedObj') !== undefined)
-                    obj.get('clippedObj').set({clipPath: ''});
+                    obj.get('clippedObj').set({ clipPath: '' });
                 canvas.remove(obj);
+            }
+            canvas.renderAll();
+        }
+    }
+
+    let cloneBtn = document.getElementsByClassName("clone-btn")[0];
+    cloneBtn.onclick = function () {
+        if (canvas.getActiveObject()) {
+            let obj = canvas.getActiveObject();
+            if (obj && !obj.isEditing) {
+                obj.clone(function (clone) {
+                    canvas.add(clone.set({
+                        left: obj.left + 10,
+                        top: obj.top + 10
+                    }));
+                });
             }
             canvas.renderAll();
         }
@@ -235,7 +252,7 @@ function initCommonBtns(canvas) {
             let obj = canvas.getActiveObject();
             if (obj && !obj.isEditing) {
                 if (obj.get('clippedObj') !== undefined)
-                    obj.get('clippedObj').set({clipPath: ''});
+                    obj.get('clippedObj').set({ clipPath: '' });
                 canvas.remove(obj);
             }
         }
