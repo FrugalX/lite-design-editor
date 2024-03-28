@@ -57,9 +57,11 @@ export function initToolbar(canvas) {
         + '<div class="widget-group entity-tools shape-tools">'
         + '<span class="tool-item rect-btn" title="Add Rectangle"><i class="bi-square"></i></span>'
         + '<span class="tool-item circle-btn" title="Add Circle"><i class="bi-circle"></i></span>'
+        + '<span class="tool-item hexagon-btn" title="Add Hexagon"><i class="bi-hexagon"></i></span>'
+        + '<span class="tool-item triangle-btn" title="Add Triangle"><i class="bi-triangle"></i></span>'
         + '</div>'
 
-        + '<div class="widget-group entity-tools shape-tools">'
+        + '<div class="widget-group entity-tools shape-tools" style="display: none;">'
         + '<span id="shape-color-btn" class="tool-item" style="border-bottom:3px solid white; padding-bottom:0;"><i class="bi-gem"></i></span>'
         + '<span id="shape-fillcolor-btn" class="tool-item" style="border-bottom:3px solid rgba(0, 0 , 255, 0.8); padding-bottom:0;"><i class="bi-paint-bucket"></i></span>'
         + '<span class="tool-item" title="Border width">'
@@ -71,9 +73,18 @@ export function initToolbar(canvas) {
         + '<option value="8">8</option>'
         + '</select>'
         + '</span>'
+        + '<span class="tool-item" title="Border radius">'
+        + '<select name="border-radius" class="border-radius" style="color:blue; display:none;">'
+        + '<option value="0">0</option>'
+        + '<option value="4">4</option>'
+        + '<option value="8" selected>8</option>'
+        + '<option value="12">12</option>'
+        + '<option value="16">16</option>'
+        + '</select>'
+        + '</span>'
         + '</div>'
 
-        + '<div class="widget-group entity-tools image-tools">'
+        + '<div class="widget-group entity-tools image-tools" style="display: none;">'
         + '<div style="float:left;">'
         + '<input type="file" id="img-replace" class="img-replace" hidden accept="image/*"/><label for="img-replace">'
         + '<span class="tool-item img-replace-btn" title="Replace Image"><i class="bi-arrow-left-right"></i></span></label>'
@@ -92,7 +103,7 @@ export function initToolbar(canvas) {
         + '</div>'
         + '</div>'
 
-        + '<div class="widget-group change-layer-btns">'
+        + '<div class="widget-group change-layer-btns" style="display: none;">'
         + '<span class="pushbackward-btn tool-item" title="Push backward"><i class="bi-arrow-down"></i></span>'
         + '<span class="pullforward-btn tool-item" title="Pull forward"><i class="bi-arrow-up"></i></span>'
         + '<span class="sendback-btn tool-item" title="Send back"><i class="fa-solid bi-chevron-double-down"></i></span>'
@@ -100,7 +111,7 @@ export function initToolbar(canvas) {
         + '</div>'
 
         + '<div class="widget-group">'
-        + '<span class="clone-btn tool-item" title="Clone" style="color:blue"><i class="bi-copy"></i></span>'
+        + '<span class="clone-btn tool-item" title="Copy"><i class="bi-copy"></i></span>'
         + '<span class="trash-btn tool-item"><i class="bi-trash"></i></span>'
         + '</div>'
 
@@ -127,7 +138,7 @@ export function updateToolbarOnElementSelect(e, canvas) {
         textColorWidget.setColor(canvas.getActiveObject().get('stroke'));
         textbgColorWidget.setColor(canvas.getActiveObject().get('backgroundColor'));
     }
-    else if (e.selected[0].get('type') === 'rect' || e.selected[0].get('type') === 'circle') {
+    else if (e.selected[0].get('type') === 'rect' || e.selected[0].get('type') === 'circle' || e.selected[0].get('type') === 'polygon') {
         document.querySelectorAll('.entity-tools').forEach(function (el) {
             el.style.display = 'none';
         });
@@ -139,6 +150,13 @@ export function updateToolbarOnElementSelect(e, canvas) {
         document.getElementById('shape-fillcolor-btn').style.borderBottomColor = canvas.getActiveObject().get('fill');
         shapeColorWidget.setColor(canvas.getActiveObject().get('stroke'));
         shapefillColorWidget.setColor(canvas.getActiveObject().get('fill'));
+        if (e.selected[0].get('type') === 'rect') {
+            document.getElementsByClassName("border-radius")[0].style.display = 'inline-block';
+            document.getElementsByClassName("border-radius")[0].value = String(canvas.getActiveObject().get('rx'));
+        }
+        else {
+            document.getElementsByClassName("border-radius")[0].style.display = 'none';
+        }
     }
     else if (e.selected[0].get('type') === 'image') {
         document.querySelectorAll('.entity-tools').forEach(function (el) {

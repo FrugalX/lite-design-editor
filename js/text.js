@@ -10,7 +10,7 @@ export default function initText(canvas) {
             backgroundColor: document.getElementById("text-bgcolor-btn").style.borderBottomColor,
             textAlign: 'center',
             width: 200,
-            lineHeight: 0.8,
+            lineHeight: 1.0,
             fontSize: 28,
             fontFamily: document.getElementsByClassName("font-family")[0].value,
             originX: "center",
