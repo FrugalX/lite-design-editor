@@ -42,7 +42,7 @@
 #toolbox .widget-group {
     float: left;
     padding: 6px 4px 4px 4px;
-    background-color: #efefef;
+    background-color: #f8f8f8;
     border-radius: 2px;
     margin: 2px;
 }
@@ -64,9 +64,10 @@
 }
 
 #toolbox .tool-item {
-    padding: 2px 4px;
+    padding: 2px 2px;
     margin: 0 2px;
-    color: #777;
+    color: #000;
+    font-size:1.15rem;
 }
 
 .one-more-bar {
@@ -168,6 +169,7 @@ input[type='range'] {
 #toolbox .number-input {
     border: 1px solid #ddd;
     display: inline-flex;
+    padding: 1px;   
 }
 
 #toolbox .number-input,
