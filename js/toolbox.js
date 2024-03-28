@@ -3,6 +3,7 @@ export let canvasbgColorWidget, shapeColorWidget, shapefillColorWidget, textColo
 export function initToolbar(canvas) {
     let toolbox = document.getElementById("toolbox");
     toolbox.innerHTML =
+    '<div style="font-size:12px; color:blue; text-align:center; padding-bottom:2px;">New! Rounded Square, Hexagon, Triangle</div>' + 
         '<div class="widget-group">'
         + '<span class="tool-item undo" title="Undo"><i class="bi-arrow-counterclockwise"></i></span><span class="tool-item redo" title="Redo"><i class="bi-arrow-clockwise"></i></span>'
         + '</div>'
