@@ -10,7 +10,7 @@ var fontList = [
     "Trebuchet MS",
     "Verdana"
 ];
-const customFonts = ["Arimo", "Ballet", "Charm", "Great Vibes", "Lato", 
+const customFonts = ["Arimo", "Ballet", "Charm", "Great Vibes", "Lato",
     "Merriweather", "Montserrat", "Open Sans", "Oswald", "Poppins", "Tangerine"];
 
 export const ldeDocument = { width: 512, height: 512 };
@@ -105,14 +105,18 @@ export default function configCanvas(canvas, container, config, callback) {
     // Export
     let exportBtn = document.getElementById("export-btn");
     exportBtn.onclick = function () {
-        let ldeDocument = canvas.toJSON(['selectable', 'width', 'height']);
-        let data = JSON.stringify(ldeDocument);
+        canvas.setDimensions({ width: ldeDocument.width, height: ldeDocument.height });
+        canvas.setZoom(1.0);
+        canvas.renderAll();
+        let doc = canvas.toJSON(['selectable', 'width', 'height']);
+        let data = JSON.stringify(doc);
         // Save the JSON string to a file
         var blob = new Blob([data], { type: 'application/json' });
         saveAs(blob, 'lde.json');
     }
 
-    async function  loadFonts() {
+    // Load google fonts
+    async function loadFonts() {
         for (let run = 0; run < customFonts.length; run++) {
             var head = document.getElementsByTagName('head')[0];
             var link = document.createElement('link');
@@ -126,7 +130,7 @@ export default function configCanvas(canvas, container, config, callback) {
             var font = new FontFaceObserver(customFonts[run]);
             try {
                 let result = await font.load();
-                console.log(customFonts[run], 'font loaded');
+                //console.log(customFonts[run], 'font loaded');
                 let fontSelect = document.getElementById("font-family");
                 let newOption = new Option(customFonts[run], customFonts[run]);
                 newOption.style.color = "blue";
@@ -136,7 +140,7 @@ export default function configCanvas(canvas, container, config, callback) {
             } catch (err) {
                 console.log(customFonts[run], 'font is not available');
             }
-        }    
+        }
     }
 
     loadFonts();
@@ -171,7 +175,7 @@ export default function configCanvas(canvas, container, config, callback) {
             var font = new FontFaceObserver(customFonts[run]);
             try {
                 let result = await font.load();
-                console.log(customFonts[run], 'font loaded');
+                //console.log(customFonts[run], 'font loaded');
                 let fontSelect = document.getElementById("font-family");
                 fontSelect.options[0] = new Option(customFonts[run], customFonts[run]);
             } catch (err) {
