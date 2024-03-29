@@ -3,7 +3,7 @@ export let canvasbgColorWidget, shapeColorWidget, shapefillColorWidget, textColo
 export function initToolbar(canvas) {
     let toolbox = document.getElementById("toolbox");
     toolbox.innerHTML =
-    '<div style="font-size:12px; color:blue; text-align:center; padding-bottom:2px;"><b>New!</b> Char spacing</div>' + 
+    '<div style="font-size:12px; color:blue; text-align:center; padding-bottom:2px;"><b>New!</b> i) Char spacing, ii) A few pre-loaded google fonts (in blue color in Fonts dropdown menu)</div>' + 
         '<div class="widget-group">'
         + '<span class="tool-item undo" title="Undo"><i class="bi-arrow-counterclockwise"></i></span><span class="tool-item redo" title="Redo"><i class="bi-arrow-clockwise"></i></span>'
         + '</div>'
@@ -18,13 +18,13 @@ export function initToolbar(canvas) {
         + '<div class="widget-group entity-tools text-tools">'
         + '<span class="tool-item">'
         + '<select name="font-family" class="font-family" id="font-family">'
-        + '<option value="Arial">Arial</option>'
-        + '<option value="Courier New">Courier New</option>'
-        + '<option value="Helvetica">Helvetica</option>'
-        + '<option value="Impact">Impact</option>'
-        + '<option value="Times New Roman" selected>Times New Roman</option>'
-        + '<option value="Trebuchet MS">Trebuchet MS</option>'
-        + '<option value="Verdana">Verdana</option>'
+        + '<option value="Arial", style="font-family: Arial;">Arial</option>'
+        + '<option value="Courier New" style="font-family: Courier New;">Courier New</option>'
+        + '<option value="Helvetica" style="font-family: Helvetica;">Helvetica</option>'
+        + '<option value="Impact" style="font-family: Impact;">Impact</option>'
+        + '<option value="Times New Roman" style="font-family: Times New Roman;" selected>Times New Roman</option>'
+        + '<option value="Trebuchet MS" style="font-family: Trebuchet MS;">Trebuchet MS</option>'
+        + '<option value="Verdana" style="font-family: Verdana;">Verdana</option>'
         + '</select></span>'
         + '</div>'
 

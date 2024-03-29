@@ -3,24 +3,16 @@ import { updateToolbarOnElementSelect, onElementDeselect, canvasbgColorWidget } 
 
 var fontList = [
     "Arial",
-    "Arial Black",
-    "Arial Narrow",
-    "Bookman Old Style",
-    "Comic Sans MS",
     "Courier New",
-    "Georgia",
     "Helvetica",
     "Impact",
-    "Lucida Console",
-    "Lucida Sans Unicode",
-    "Palatino Linotype",
-    "Segoe UI",
-    "Tahoma",
     "Times New Roman",
     "Trebuchet MS",
     "Verdana"
 ];
-const customFonts = [];
+const customFonts = ["Arimo", "Ballet", "Charm", "Great Vibes", "Lato", 
+    "Merriweather", "Montserrat", "Open Sans", "Oswald", "Poppins", "Tangerine"];
+
 export const ldeDocument = { width: 512, height: 512 };
 
 export default function configCanvas(canvas, container, config, callback) {
@@ -120,8 +112,37 @@ export default function configCanvas(canvas, container, config, callback) {
         saveAs(blob, 'lde.json');
     }
 
+    async function  loadFonts() {
+        for (let run = 0; run < customFonts.length; run++) {
+            var head = document.getElementsByTagName('head')[0];
+            var link = document.createElement('link');
+            link.id = customFonts[run];
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = '//fonts.googleapis.com/css?family=' + customFonts[run];
+            link.media = 'all';
+            head.appendChild(link);
+
+            var font = new FontFaceObserver(customFonts[run]);
+            try {
+                let result = await font.load();
+                console.log(customFonts[run], 'font loaded');
+                let fontSelect = document.getElementById("font-family");
+                let newOption = new Option(customFonts[run], customFonts[run]);
+                newOption.style.color = "blue";
+                newOption.style.fontFamily = customFonts[run];
+                newOption.title = "Google Font";
+                fontSelect.options[fontSelect.options.length] = newOption;
+            } catch (err) {
+                console.log(customFonts[run], 'font is not available');
+            }
+        }    
+    }
+
+    loadFonts();
+
     // load custom fonts based on imported fabric js file
-    async function loadFonts(json) {
+    async function loadJsonFonts(json) {
         json.objects.forEach((obj) => {
             if (obj.type === 'textbox') {
                 if (!fontList.includes(obj.fontFamily)) {
@@ -184,7 +205,7 @@ export default function configCanvas(canvas, container, config, callback) {
                     canvas.setDimensions({ width: ldeDocument.width * zoomFactor, height: ldeDocument.height * zoomFactor });
                     canvas.setZoom(zoomFactor);
                 }
-                await loadFonts(json);
+                await loadJsonFonts(json);
                 canvas.loadFromJSON(json, function () {
                     canvas.renderAll();
                 });
