@@ -11,6 +11,7 @@ export default function initText(canvas) {
             textAlign: 'center',
             width: 200,
             lineHeight: 1.0,
+            charSpacing: 0,
             fontSize: 28,
             fontFamily: document.getElementsByClassName("font-family")[0].value,
             originX: "center",
@@ -61,6 +62,33 @@ export default function initText(canvas) {
             canvas.renderAll();
         }
     }
+
+    // change char spacing
+    let charSpace = document.getElementsByClassName("charspace")[0];
+    charSpace.onchange = function () {
+        if (canvas.getActiveObject()) {
+            canvas.getActiveObject().set('charSpacing', charSpace.value);
+            canvas.renderAll();
+        }
+    }
+    let incCharSpace = document.getElementsByClassName("inc-charspace")[0];
+    incCharSpace.onclick = function () {
+        let charSpace = document.getElementsByClassName("charspace")[0];
+        charSpace.stepUp();
+        if (canvas.getActiveObject()) {
+            canvas.getActiveObject().set('charSpacing', charSpace.value);
+            canvas.renderAll();
+        }
+    }
+    let decCharSpace = document.getElementsByClassName("dec-charspace")[0];
+    decCharSpace.onclick = function () {
+        let charSpace = document.getElementsByClassName("charspace")[0];
+        charSpace.stepDown();
+        if (canvas.getActiveObject()) {
+            canvas.getActiveObject().set('charSpacing', charSpace.value);
+            canvas.renderAll();
+        }
+    }  
 
     // change text attributes
     let boldText = document.getElementsByClassName("bold-text")[0];

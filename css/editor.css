@@ -207,6 +207,10 @@ input[type='range'] {
     transform: translate(-50%, -50%) rotate(90deg) scale(0.5);
 }
 
+#toolbox .number-input button.inc-charspace:after {
+    transform: translate(-50%, -50%) rotate(90deg) scale(0.5);
+}
+
 #toolbox .number-input input[type=number] {
     font-family: sans-serif;
     max-width: 2.5rem;

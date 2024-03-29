@@ -3,7 +3,7 @@ export let canvasbgColorWidget, shapeColorWidget, shapefillColorWidget, textColo
 export function initToolbar(canvas) {
     let toolbox = document.getElementById("toolbox");
     toolbox.innerHTML =
-    '<div style="font-size:12px; color:blue; text-align:center; padding-bottom:2px;">New! Rounded Square, Hexagon, Triangle</div>' + 
+    '<div style="font-size:12px; color:blue; text-align:center; padding-bottom:2px;"><b>New!</b> Char spacing</div>' + 
         '<div class="widget-group">'
         + '<span class="tool-item undo" title="Undo"><i class="bi-arrow-counterclockwise"></i></span><span class="tool-item redo" title="Redo"><i class="bi-arrow-clockwise"></i></span>'
         + '</div>'
@@ -30,13 +30,22 @@ export function initToolbar(canvas) {
 
         + '<div class="widget-group entity-tools text-tools" style="padding-top:0;">'
         + `
-            <div class="number-input">
+            <div class="number-input" title="Font size">
                 <button class="dec-fontsize" ></button>
                 <input class="font-size" min="0" name="font-size" value="28" type="number">
                 <button class="inc-fontsize"></button>
-            </div>
-        `
+            </div>`
         + '</div>'
+        
+        + '<div class="widget-group entity-tools text-tools" style="padding-top:0;">'
+        + `
+            <div class="number-input" title="Char spacing">
+                <button class="dec-charspace" ></button>
+                <input class="charspace" min="-500" max="500" step="50" name="charspace" value="0" type="number">
+                <button class="inc-charspace"></button>
+            </div>`
+        + '</div>'
+        
         + '<div class="widget-group entity-tools text-tools">'
         + '<span class="tool-item bold-text"><i class="bi-type-bold"></i></span>'
         + '<span class="tool-item underline-text"><i class="bi-type-underline"></i></span>'
