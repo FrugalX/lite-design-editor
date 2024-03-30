@@ -8,7 +8,7 @@ Lite Design Editor is a lightweight, web-based graphics design editor built with
 
 - **Simple Interface:** Clean and intuitive user interface for easy navigation and usage.
 - **Canvas Editing:** Utilizes the fabric.js library for powerful canvas editing capabilities.
-- **Basic Tools:** Includes essential tools such as selection, drawing, shapes (currently supporting only rectangles & circles), text, and images.
+- **Basic Tools:** Includes essential tools such as selection, drawing, shapes, text, and images.
 - **Export Options:** Supports exporting and downloading designs in various formats such as JSON, and PNG.
 
 ## Fonts

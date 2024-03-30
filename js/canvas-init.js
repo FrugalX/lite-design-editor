@@ -11,7 +11,7 @@ var fontList = [
     "Verdana"
 ];
 const customFonts = ["Arimo", "Ballet", "Charm", "Great Vibes", "Lato",
-    "Merriweather", "Montserrat", "Open Sans", "Oswald", "Poppins", "Tangerine"];
+    "Merriweather", "Montserrat", "Open Sans", "Oswald", "Playfair Display", "Poppins", "Roboto", "Tangerine"];
 
 export const ldeDocument = { width: 512, height: 512 };
 

@@ -17,8 +17,8 @@ export default function initShapes(canvas) {
         let rect = new fabric.Rect({
             width: ldeDocument.width / 2,
             height: ldeDocument.height / 4,
-            rx: 8,
-            ry: 8,
+            rx: 16,
+            ry: 16,
             originX: "center",
             originY: "center",
             left: ldeDocument.width / 2,
@@ -30,6 +30,15 @@ export default function initShapes(canvas) {
             transparentCorners: false,
             cornerSize: 10
         });
+        rect.on('scaling', function () {
+            this.set({
+                width: this.width * this.scaleX,
+                height: this.height * this.scaleY,
+                scaleX: 1,
+                scaleY: 1
+            })
+        })
+
         canvas.add(rect);
         canvas.setActiveObject(rect);
     }
@@ -119,11 +128,11 @@ export default function initShapes(canvas) {
 
     shapeColorWidget.on('change', (ev) => {
         document.getElementById("shape-color-btn").style.borderBottomColor = ev.hex;
-        if (canvas.getActiveObject() && 
-        (
-            canvas.getActiveObject().get('type') === "rect" || 
-            canvas.getActiveObject().get('type') === "circle" ||
-            canvas.getActiveObject().get('type') === "polygon"
+        if (canvas.getActiveObject() &&
+            (
+                canvas.getActiveObject().get('type') === "rect" ||
+                canvas.getActiveObject().get('type') === "circle" ||
+                canvas.getActiveObject().get('type') === "polygon"
             )) {
             canvas.getActiveObject().set('stroke', ev.hex);
             canvas.renderAll();
