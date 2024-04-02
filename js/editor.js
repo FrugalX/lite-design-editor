@@ -5,7 +5,8 @@ import initShapes from "./shapes.js"
 import initText from "./text.js"
 import addResizeDialog from "./resize-dialog.js"
 import configCanvas, { ldeDocument } from "./canvas-init.js"
-
+import { bgGradients } from "./gradients.js"
+import { templates } from "../templates/templates.js"
 export default function editor(containerId, config, callback) {
 
     let container = document.getElementById(containerId);
@@ -14,9 +15,9 @@ export default function editor(containerId, config, callback) {
         + '<div class="toolboxContainer"><div id="toolbox"></div></div>'
         + '<div class="one-more-bar">'
         + '<div id="sizeDisplay" style="float:left; padding: 2px 4px; color: #666; font-size: 13px; background-color: #ddd;"></div>'
-        + '<div id="resize-btn" style="float:left; padding: 2px 8px; color: #666; font-size: 15px; cursor: pointer;">Resize</div>'
-        + '<div id="canvas-bgcolor-btn" style="float:left; padding: 2px 8px; color: #666; font-size: 15px; cursor: pointer;">Background</div>'
-        + '<div id="template-btn" style="float:left; padding: 2px 8px; color: #666; font-size: 15px; cursor: pointer;" title ="To be done">Template</div>'
+        + '<div id="resize-btn" style="float:left; padding: 2px 8px; color: #444; font-size: 14px; cursor: pointer;">Resize</div>'
+        + '<div id="canvas-bgcolor-btn" style="float:left; padding: 2px 8px; color: #444; font-size: 14px; cursor: pointer;">Background</div>'
+        + '<div id="template-btn" style="float:left; padding: 2px 8px; color: #888; font-size: 14px; cursor: pointer;" title ="To be done">Template</div>'
         + '<div class="sliderContainer" style="float:right;">'
         + '<span style="font-size:12px; margin-top:-4px;">5%</span>'
         + '<input type="range" min="5" max="100" value="100" class="slider" id="sliderRange" style="min-width:200px;">'
@@ -29,31 +30,22 @@ export default function editor(containerId, config, callback) {
         + '<div class="canvasContainer"><div class="canvasWrapper"><canvas id="editorCanvas"></canvas></div></div>'
         + '</div>'
         + '<div class="sidebar_small">'
-        + '<button class="collapse-button">X</button>'
+        + '<div style="min-height:40px;" class="collapse-button-container"><button class="collapse-button">X</button></div>'
+        + '<div id="sidebar-content"></div>'
         + '</div>'
         + '</div>';
 
     // https://codepen.io/DeolaJ/pen/xvjbKY
     const sidebar = document.querySelector('.sidebar_small');
     const mainContent = document.querySelector('.main-content_large');
-    document.querySelector('button').onclick = function () {
+    document.querySelector('.collapse-button').onclick = function (e) {
         sidebar.classList.remove('sidebar');
+        e.target.style.display = 'none';
         mainContent.classList.remove('main-content');
         sidebar.classList.add('sidebar_small');
-        mainContent.classList.add('main-content_large')
+        mainContent.classList.add('main-content_large');
     }
-    document.querySelector('#canvas-bgcolor-btn').onclick = function () {
-        sidebar.classList.add('sidebar');
-        mainContent.classList.add('main-content');
-        sidebar.classList.remove('sidebar_small');
-        mainContent.classList.remove('main-content_large')
-    }
-    document.querySelector('#template-btn').onclick = function () {
-        sidebar.classList.add('sidebar');
-        mainContent.classList.add('main-content');
-        sidebar.classList.remove('sidebar_small');
-        mainContent.classList.remove('main-content_large')
-    }
+
 
     initHeader(config);
     let canvas = new fabric.Canvas("editorCanvas", { preserveObjectStacking: true, backgroundColor: "#fff" });
@@ -63,4 +55,101 @@ export default function editor(containerId, config, callback) {
     initShapes(canvas);
     initText(canvas);
     addResizeDialog(canvas);
+
+    document.querySelector('#canvas-bgcolor-btn').onclick = function () {
+        sidebar.classList.add('sidebar');
+        document.querySelector('.collapse-button').style.display = 'block';
+        mainContent.classList.add('main-content');
+        sidebar.classList.remove('sidebar_small');
+        mainContent.classList.remove('main-content_large');
+
+        let sidebarContent = document.querySelector('#sidebar-content');
+        if (sidebarContent.childElementCount < 1) {
+            for (let i = 0; i < bgGradients.length; i++) {
+                let elemI = document.createElement('div');
+                elemI.style.margin = '0.25rem';
+                elemI.style.aspectRatio = '4 / 3';
+                elemI.style.backgroundColor = '#eee';
+                elemI.style.borderRadius = '3px';
+                elemI.style.backgroundImage = bgGradients[i].css;
+                elemI.setAttribute('data-gradient', i);
+                let elemO = document.createElement('div');
+                elemO.style.width = '50%';
+                elemO.style.aspectRatio = '4 / 3';
+                elemO.style.float = 'left';
+                elemO.appendChild(elemI);
+                sidebarContent.appendChild(elemO);
+
+                elemI.onclick = function (e) {
+                    let index = e.target.getAttribute('data-gradient');
+                    const clone = structuredClone(bgGradients[index].fabric);
+                    clone.coords.x1 = bgGradients[index].fabric.coords.x1 * canvas.width;
+                    clone.coords.x2 = bgGradients[index].fabric.coords.x2 * canvas.width;
+                    clone.coords.y1 = bgGradients[index].fabric.coords.y1 * canvas.height;
+                    clone.coords.y2 = bgGradients[index].fabric.coords.y2 * canvas.height;
+                    var grad = new fabric.Gradient(clone);
+                    canvas.backgroundColor = grad.toLive(canvas.contextContainer);
+                    canvas.renderAll();
+                }
+            }
+        }
+    }
+    document.querySelector('#template-btn').onclick = function () {
+        sidebar.classList.add('sidebar');
+        document.querySelector('.collapse-button').style.display = 'block';
+        mainContent.classList.add('main-content');
+        sidebar.classList.remove('sidebar_small');
+        mainContent.classList.remove('main-content_large');
+
+        let sidebarContent = document.querySelector('#sidebar-content');
+        if (sidebarContent.childElementCount < 1) {
+            for (let i = 0; i < templates.length; i++) {
+                let elemI = document.createElement('img');
+                elemI.style.borderRadius = '3px';
+                elemI.style.width = '100%';
+                elemI.src = templates[i].thumbnail;
+                elemI.setAttribute('data-template', templates[i].template);
+                let elemO = document.createElement('div');
+                elemO.style.width = '100%';
+                elemO.style.float = 'left';
+                elemO.style.padding = '0.25rem';
+                elemO.appendChild(elemI);
+                sidebarContent.appendChild(elemO);
+
+                elemI.onclick = async function (e) {
+                    let template = e.target.getAttribute('data-template');
+                    try {
+                        const response = await fetch(template, {
+                            headers: {
+                                Accept: 'application/json',
+                            },
+                        });
+                        const json = await response.json();
+                        console.log(json);
+
+                        canvas.clear();
+                        canvas.setDimensions({ width: json.width, height: json.height });
+                        ldeDocument.height = json.height;
+                        ldeDocument.width = json.width;
+                        var sizeDisplay = document.getElementById("sizeDisplay");
+                        sizeDisplay.innerHTML = ldeDocument.width + ' x ' + ldeDocument.height;
+
+                        var sliderRange = document.getElementById("sliderRange");
+                        sliderRange.value = 100;
+                        sliderRange.oninput = function () {
+                            let zoomFactor = this.value / 100;
+                            canvas.setDimensions({ width: ldeDocument.width * zoomFactor, height: ldeDocument.height * zoomFactor });
+                            canvas.setZoom(zoomFactor);
+                        }
+                        //await loadJsonFonts(json);
+                        canvas.loadFromJSON(json, function () {
+                            canvas.renderAll();
+                        });
+                    } catch (error) {
+                        console.error('Error fetching json file:', error);
+                    }
+                }
+            }
+        }
+    }
 }

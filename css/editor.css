@@ -71,7 +71,7 @@
 }
 
 .one-more-bar {
-    padding: 0.8rem;
+    padding: 0.8rem 1rem 1rem 1rem;
     background-color: #eee;
     min-height: 1rem;
 }
@@ -237,6 +237,8 @@ input[type='range'] {
     transition:0.5s ease;
     position: relative;
     border-left: 1px solid #ccc;
+    overflow-y:scroll;
+    scrollbar-width: thin;
 }
 
 .main-content {
@@ -255,6 +257,7 @@ input[type='range'] {
 }
 
 .collapse-button {
+    display: none;
     position: absolute;
     border: none;
     height: 20px;

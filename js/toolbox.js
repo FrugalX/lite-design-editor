@@ -3,7 +3,7 @@ export let canvasbgColorWidget, shapeColorWidget, shapefillColorWidget, textColo
 export function initToolbar(canvas) {
     let toolbox = document.getElementById("toolbox");
     toolbox.innerHTML =
-    '<div style="font-size:12px; color:blue; text-align:center; padding-bottom:2px;"><b>New!</b> i) Char spacing, ii) A few pre-loaded google fonts (in blue color in Fonts dropdown menu)</div>' + 
+    '<div style="font-size:12px; color:blue; text-align:center; padding-bottom:2px;"><b>New!</b> i) Background gradients ii) Char spacing, iii) A few pre-loaded google fonts</div>' + 
         '<div class="widget-group">'
         + '<span class="tool-item undo" title="Undo"><i class="bi-arrow-counterclockwise"></i></span><span class="tool-item redo" title="Redo"><i class="bi-arrow-clockwise"></i></span>'
         + '</div>'
