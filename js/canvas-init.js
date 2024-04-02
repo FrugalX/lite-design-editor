@@ -15,6 +15,67 @@ const customFonts = ["Arimo", "Ballet", "Charm", "Great Vibes", "Lato",
 
 export const ldeDocument = { width: 512, height: 512 };
 
+
+// load custom fonts based on imported fabric js file
+async function loadJsonFonts(json) {
+    json.objects.forEach((obj) => {
+        if (obj.type === 'textbox') {
+            if (!fontList.includes(obj.fontFamily)) {
+                if (!customFonts.includes(obj.fontFamily))
+                    customFonts.push(obj.fontFamily);
+            }
+            for (let i = 0; i < obj.styles.length; i++) {
+                if (!fontList.includes(obj.styles[i].style.fontFamily)) {
+                    if (!customFonts.includes(obj.styles[i].style.fontFamily))
+                        customFonts.push(obj.styles[i].style.fontFamily);
+                }
+            }
+        }
+    });
+
+    for (let run = 0; run < customFonts.length; run++) {
+        var head = document.getElementsByTagName('head')[0];
+        var link = document.createElement('link');
+        link.id = customFonts[run];
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '//fonts.googleapis.com/css?family=' + customFonts[run];
+        link.media = 'all';
+        head.appendChild(link);
+
+        var font = new FontFaceObserver(customFonts[run]);
+        try {
+            let result = await font.load();
+            //console.log(customFonts[run], 'font loaded');
+            let fontSelect = document.getElementById("font-family");
+            fontSelect.options[0] = new Option(customFonts[run], customFonts[run]);
+        } catch (err) {
+            console.log(customFonts[run], 'font is not available');
+        }
+    }
+}
+
+export async function renderFabricJson(canvas, json) {
+    canvas.clear();
+    canvas.setDimensions({ width: json.width, height: json.height });
+    ldeDocument.height = json.height;
+    ldeDocument.width = json.width;
+    var sizeDisplay = document.getElementById("sizeDisplay");
+    sizeDisplay.innerHTML = ldeDocument.width + ' x ' + ldeDocument.height;
+
+    var sliderRange = document.getElementById("sliderRange");
+    sliderRange.value = 100;
+    sliderRange.oninput = function () {
+        let zoomFactor = this.value / 100;
+        canvas.setDimensions({ width: ldeDocument.width * zoomFactor, height: ldeDocument.height * zoomFactor });
+        canvas.setZoom(zoomFactor);
+    }
+    await loadJsonFonts(json);
+    canvas.loadFromJSON(json, function () {
+        canvas.renderAll();
+    });
+}
+
 export default function configCanvas(canvas, container, config, callback) {
     // Initialize fabricjs canvas
     if (config.image !== undefined) {
@@ -145,45 +206,6 @@ export default function configCanvas(canvas, container, config, callback) {
 
     loadFonts();
 
-    // load custom fonts based on imported fabric js file
-    async function loadJsonFonts(json) {
-        json.objects.forEach((obj) => {
-            if (obj.type === 'textbox') {
-                if (!fontList.includes(obj.fontFamily)) {
-                    if (!customFonts.includes(obj.fontFamily))
-                        customFonts.push(obj.fontFamily);
-                }
-                for (let i = 0; i < obj.styles.length; i++) {
-                    if (!fontList.includes(obj.styles[i].style.fontFamily)) {
-                        if (!customFonts.includes(obj.styles[i].style.fontFamily))
-                            customFonts.push(obj.styles[i].style.fontFamily);
-                    }
-                }
-            }
-        });
-
-        for (let run = 0; run < customFonts.length; run++) {
-            var head = document.getElementsByTagName('head')[0];
-            var link = document.createElement('link');
-            link.id = customFonts[run];
-            link.rel = 'stylesheet';
-            link.type = 'text/css';
-            link.href = '//fonts.googleapis.com/css?family=' + customFonts[run];
-            link.media = 'all';
-            head.appendChild(link);
-
-            var font = new FontFaceObserver(customFonts[run]);
-            try {
-                let result = await font.load();
-                //console.log(customFonts[run], 'font loaded');
-                let fontSelect = document.getElementById("font-family");
-                fontSelect.options[0] = new Option(customFonts[run], customFonts[run]);
-            } catch (err) {
-                console.log(customFonts[run], 'font is not available');
-            }
-        }
-    }
-
     // Import
     document.getElementById("jsonInput").addEventListener('change', function (event) {
         console.log('jsonInput entered')
@@ -195,24 +217,7 @@ export default function configCanvas(canvas, container, config, callback) {
             reader.addEventListener('load', async (e) => {
                 let fileContents = e.target.result;
                 let json = JSON.parse(fileContents);
-                canvas.clear();
-                canvas.setDimensions({ width: json.width, height: json.height });
-                ldeDocument.height = json.height;
-                ldeDocument.width = json.width;
-                var sizeDisplay = document.getElementById("sizeDisplay");
-                sizeDisplay.innerHTML = ldeDocument.width + ' x ' + ldeDocument.height;
-
-                var sliderRange = document.getElementById("sliderRange");
-                sliderRange.value = 100;
-                sliderRange.oninput = function () {
-                    let zoomFactor = this.value / 100;
-                    canvas.setDimensions({ width: ldeDocument.width * zoomFactor, height: ldeDocument.height * zoomFactor });
-                    canvas.setZoom(zoomFactor);
-                }
-                await loadJsonFonts(json);
-                canvas.loadFromJSON(json, function () {
-                    canvas.renderAll();
-                });
+                renderFabricJson(canvas, json);
             });
         }
     })

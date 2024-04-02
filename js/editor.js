@@ -4,7 +4,7 @@ import initImage from "./image.js"
 import initShapes from "./shapes.js"
 import initText from "./text.js"
 import addResizeDialog from "./resize-dialog.js"
-import configCanvas, { ldeDocument } from "./canvas-init.js"
+import configCanvas, { ldeDocument, renderFabricJson } from "./canvas-init.js"
 import { bgGradients } from "./gradients.js"
 import { templates } from "../templates/templates.js"
 export default function editor(containerId, config, callback) {
@@ -31,7 +31,7 @@ export default function editor(containerId, config, callback) {
         + '</div>'
         + '<div class="sidebar_small">'
         + '<div style="min-height:40px;" class="collapse-button-container"><button class="collapse-button">X</button></div>'
-        + '<div id="sidebar-content"></div>'
+        + '<div id="sidebar-content"><div id="template-content"></div><div id="bg-content"></div></div>'
         + '</div>'
         + '</div>';
 
@@ -63,8 +63,10 @@ export default function editor(containerId, config, callback) {
         sidebar.classList.remove('sidebar_small');
         mainContent.classList.remove('main-content_large');
 
-        let sidebarContent = document.querySelector('#sidebar-content');
-        if (sidebarContent.childElementCount < 1) {
+        document.querySelector('#template-content').style.display = 'none';
+        let bgContent = document.querySelector('#bg-content');
+        bgContent.style.display = 'block';
+        if (bgContent.childElementCount < 1) {
             for (let i = 0; i < bgGradients.length; i++) {
                 let elemI = document.createElement('div');
                 elemI.style.margin = '0.25rem';
@@ -78,7 +80,7 @@ export default function editor(containerId, config, callback) {
                 elemO.style.aspectRatio = '4 / 3';
                 elemO.style.float = 'left';
                 elemO.appendChild(elemI);
-                sidebarContent.appendChild(elemO);
+                bgContent.appendChild(elemO);
 
                 elemI.onclick = function (e) {
                     let index = e.target.getAttribute('data-gradient');
@@ -101,8 +103,10 @@ export default function editor(containerId, config, callback) {
         sidebar.classList.remove('sidebar_small');
         mainContent.classList.remove('main-content_large');
 
-        let sidebarContent = document.querySelector('#sidebar-content');
-        if (sidebarContent.childElementCount < 1) {
+        document.querySelector('#bg-content').style.display = 'none';
+        let templateContent = document.querySelector('#template-content');
+        templateContent.style.display = 'block';
+        if (templateContent.childElementCount < 1) {
             for (let i = 0; i < templates.length; i++) {
                 let elemI = document.createElement('img');
                 elemI.style.borderRadius = '3px';
@@ -114,7 +118,7 @@ export default function editor(containerId, config, callback) {
                 elemO.style.float = 'left';
                 elemO.style.padding = '0.25rem';
                 elemO.appendChild(elemI);
-                sidebarContent.appendChild(elemO);
+                templateContent.appendChild(elemO);
 
                 elemI.onclick = async function (e) {
                     let template = e.target.getAttribute('data-template');
@@ -126,25 +130,7 @@ export default function editor(containerId, config, callback) {
                         });
                         const json = await response.json();
                         console.log(json);
-
-                        canvas.clear();
-                        canvas.setDimensions({ width: json.width, height: json.height });
-                        ldeDocument.height = json.height;
-                        ldeDocument.width = json.width;
-                        var sizeDisplay = document.getElementById("sizeDisplay");
-                        sizeDisplay.innerHTML = ldeDocument.width + ' x ' + ldeDocument.height;
-
-                        var sliderRange = document.getElementById("sliderRange");
-                        sliderRange.value = 100;
-                        sliderRange.oninput = function () {
-                            let zoomFactor = this.value / 100;
-                            canvas.setDimensions({ width: ldeDocument.width * zoomFactor, height: ldeDocument.height * zoomFactor });
-                            canvas.setZoom(zoomFactor);
-                        }
-                        //await loadJsonFonts(json);
-                        canvas.loadFromJSON(json, function () {
-                            canvas.renderAll();
-                        });
+                        renderFabricJson(canvas, json);
                     } catch (error) {
                         console.error('Error fetching json file:', error);
                     }
