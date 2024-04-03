@@ -72,6 +72,11 @@ export async function renderFabricJson(canvas, json) {
     }
     await loadJsonFonts(json);
     canvas.loadFromJSON(json, function () {
+        if (json.backgroundGradient !== undefined) {
+            var grad = new fabric.Gradient(json.backgroundGradient);
+            canvas.backgroundGradient = json.backgroundGradient;
+            canvas.backgroundColor = grad.toLive(canvas.contextContainer);
+        }
         canvas.renderAll();
     });
 }
@@ -169,7 +174,7 @@ export default function configCanvas(canvas, container, config, callback) {
         canvas.setDimensions({ width: ldeDocument.width, height: ldeDocument.height });
         canvas.setZoom(1.0);
         canvas.renderAll();
-        let doc = canvas.toJSON(['selectable', 'width', 'height']);
+        let doc = canvas.toJSON(['selectable', 'width', 'height', 'backgroundGradient']);
         let data = JSON.stringify(doc);
         // Save the JSON string to a file
         var blob = new Blob([data], { type: 'application/json' });

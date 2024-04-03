@@ -90,6 +90,7 @@ export default function editor(containerId, config, callback) {
                     clone.coords.y1 = bgGradients[index].fabric.coords.y1 * canvas.height;
                     clone.coords.y2 = bgGradients[index].fabric.coords.y2 * canvas.height;
                     var grad = new fabric.Gradient(clone);
+                    canvas.backgroundGradient = clone;
                     canvas.backgroundColor = grad.toLive(canvas.contextContainer);
                     canvas.renderAll();
                 }

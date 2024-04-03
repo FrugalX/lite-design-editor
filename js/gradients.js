@@ -118,7 +118,159 @@ export const bgGradients = [
             ]
         },
         css: "linear-gradient(90deg, #F76B1C 0%, #F76B1C 50%, #323228 50%, #323228 100%)"
+    },        
+    {
+        fabric: {
+            type: 'linear',
+            coords: {
+                x1: 0,
+                y1: 0,
+                x2: 1,
+                y2: 1,
+            },
+            colorStops: [
+                {
+                    color: '#DC143C',
+                    offset: 0,
+                },
+                {
+                    color: '#DC143C',
+                    offset: 0.2,
+                },
+                {
+                    color: '#FFFFFF',
+                    offset: 0.2,
+                },
+                {
+                    color: '#FFFFFF',
+                    offset: 0.205,
+                },
+                {
+                    color: '#323228',
+                    offset: 0.205,
+                },
+                {
+                    color: '#323228',
+                    offset: 1,
+                }
+            ]
+        },
+        css: "linear-gradient(135deg, #DC143C 0%, #DC143C 20%, #FFFFFF 20%, #FFFFFF 21%, #323228 21%, #323228 100%)"
+    },    
+    {
+        fabric: {
+            type: 'linear',
+            coords: {
+                x1: 0,
+                y1: 0,
+                x2: 1,
+                y2: 1,
+            },
+            colorStops: [
+                {
+                    color: '#F76B1C',
+                    offset: 0,
+                },
+                {
+                    color: '#F76B1C',
+                    offset: 0.2,
+                },
+                {
+                    color: '#FFFFFF',
+                    offset: 0.2,
+                },
+                {
+                    color: '#FFFFFF',
+                    offset: 0.205,
+                },
+                {
+                    color: '#323228',
+                    offset: 0.205,
+                },
+                {
+                    color: '#323228',
+                    offset: 1,
+                }
+            ]
+        },
+        css: "linear-gradient(135deg, #F76B1C 0%, #F76B1C 20%, #FFFFFF 20%, #FFFFFF 21%, #323228 21%, #323228 100%)"
     },
+    {
+        fabric: {
+            type: 'linear',
+            coords: {
+                x1: 0,
+                y1: 0.5,
+                x2: 1,
+                y2: 0.5,
+            },
+            colorStops: [
+                {
+                    color: '#DC143C',
+                    offset: 0,
+                },
+                {
+                    color: '#DC143C',
+                    offset: 0.3,
+                },
+                {
+                    color: '#FFFFFF',
+                    offset: 0.3,
+                },
+                {
+                    color: '#FFFFFF',
+                    offset: 0.305,
+                },
+                {
+                    color: '#323228',
+                    offset: 0.305,
+                },
+                {
+                    color: '#323228',
+                    offset: 1,
+                }
+            ]
+        },
+        css: "linear-gradient(90deg, #DC143C 0%, #DC143C 30%, #FFFFFF 30%, #FFFFFF 31%, #323228 31%, #323228 100%)"
+    },    
+    {
+        fabric: {
+            type: 'linear',
+            coords: {
+                x1: 0,
+                y1: 0.5,
+                x2: 1,
+                y2: 0.5,
+            },
+            colorStops: [
+                {
+                    color: '#F76B1C',
+                    offset: 0,
+                },
+                {
+                    color: '#F76B1C',
+                    offset: 0.3,
+                },
+                {
+                    color: '#FFFFFF',
+                    offset: 0.3,
+                },
+                {
+                    color: '#FFFFFF',
+                    offset: 0.305,
+                },
+                {
+                    color: '#323228',
+                    offset: 0.305,
+                },
+                {
+                    color: '#323228',
+                    offset: 1,
+                }
+            ]
+        },
+        css: "linear-gradient(90deg, #F76B1C 0%, #F76B1C 30%, #FFFFFF 30%, #FFFFFF 31%, #323228 31%, #323228 100%)"
+    },   
     {
         fabric: {
             type: 'linear',
