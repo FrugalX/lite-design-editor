@@ -10,8 +10,10 @@ var fontList = [
     "Trebuchet MS",
     "Verdana"
 ];
-const customFonts = ["Arimo", "Ballet", "Charm", "Great Vibes", "Lato",
+const preloadFonts = ["Arimo", "Ballet", "Charm", "Great Vibes", "Lato",
     "Merriweather", "Montserrat", "Open Sans", "Oswald", "Playfair Display", "Poppins", "Roboto", "Tangerine"];
+
+const customFonts = [];
 
 export const ldeDocument = { width: 512, height: 512 };
 
@@ -48,7 +50,7 @@ async function loadJsonFonts(json) {
             let result = await font.load();
             //console.log(customFonts[run], 'font loaded');
             let fontSelect = document.getElementById("font-family");
-            fontSelect.options[0] = new Option(customFonts[run], customFonts[run]);
+            fontSelect.options[fontSelect.options.length] = new Option(customFonts[run], customFonts[run]);
         } catch (err) {
             console.log(customFonts[run], 'font is not available');
         }
@@ -183,28 +185,28 @@ export default function configCanvas(canvas, container, config, callback) {
 
     // Load google fonts
     async function loadFonts() {
-        for (let run = 0; run < customFonts.length; run++) {
+        for (let run = 0; run < preloadFonts.length; run++) {
             var head = document.getElementsByTagName('head')[0];
             var link = document.createElement('link');
-            link.id = customFonts[run];
+            link.id = preloadFonts[run];
             link.rel = 'stylesheet';
             link.type = 'text/css';
-            link.href = '//fonts.googleapis.com/css?family=' + customFonts[run];
+            link.href = '//fonts.googleapis.com/css?family=' + preloadFonts[run];
             link.media = 'all';
             head.appendChild(link);
 
-            var font = new FontFaceObserver(customFonts[run]);
+            var font = new FontFaceObserver(preloadFonts[run]);
             try {
                 let result = await font.load();
-                //console.log(customFonts[run], 'font loaded');
+                //console.log(preloadFonts[run], 'font loaded');
                 let fontSelect = document.getElementById("font-family");
-                let newOption = new Option(customFonts[run], customFonts[run]);
+                let newOption = new Option(preloadFonts[run], preloadFonts[run]);
                 newOption.style.color = "blue";
-                newOption.style.fontFamily = customFonts[run];
+                newOption.style.fontFamily = preloadFonts[run];
                 newOption.title = "Google Font";
                 fontSelect.options[fontSelect.options.length] = newOption;
             } catch (err) {
-                console.log(customFonts[run], 'font is not available');
+                console.log(preloadFonts[run], 'font is not available');
             }
         }
     }
