@@ -13,7 +13,7 @@ var fontList = [
 const preloadFonts = ["Arimo", "Ballet", "Charm", "Great Vibes", "Lato",
     "Merriweather", "Montserrat", "Open Sans", "Oswald", "Playfair Display", "Poppins", "Roboto", "Tangerine"];
 
-const customFonts = [];
+const importFonts = [];
 
 export const ldeDocument = { width: 512, height: 512 };
 
@@ -23,36 +23,36 @@ async function loadJsonFonts(json) {
     json.objects.forEach((obj) => {
         if (obj.type === 'textbox') {
             if (!fontList.includes(obj.fontFamily)) {
-                if (!customFonts.includes(obj.fontFamily))
-                    customFonts.push(obj.fontFamily);
+                if (!importFonts.includes(obj.fontFamily) && !preloadFonts.includes(obj.fontFamily))
+                    importFonts.push(obj.fontFamily);
             }
             for (let i = 0; i < obj.styles.length; i++) {
                 if (!fontList.includes(obj.styles[i].style.fontFamily)) {
-                    if (!customFonts.includes(obj.styles[i].style.fontFamily))
-                        customFonts.push(obj.styles[i].style.fontFamily);
+                    if (!importFonts.includes(obj.styles[i].style.fontFamily) && !preloadFonts.includes(obj.styles[i].style.fontFamily))
+                        importFonts.push(obj.styles[i].style.fontFamily);
                 }
             }
         }
     });
 
-    for (let run = 0; run < customFonts.length; run++) {
+    for (let run = 0; run < importFonts.length; run++) {
         var head = document.getElementsByTagName('head')[0];
         var link = document.createElement('link');
-        link.id = customFonts[run];
+        link.id = importFonts[run];
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = '//fonts.googleapis.com/css?family=' + customFonts[run];
+        link.href = '//fonts.googleapis.com/css?family=' + importFonts[run];
         link.media = 'all';
         head.appendChild(link);
 
-        var font = new FontFaceObserver(customFonts[run]);
+        var font = new FontFaceObserver(importFonts[run]);
         try {
             let result = await font.load();
-            //console.log(customFonts[run], 'font loaded');
+            //console.log(importFonts[run], 'font loaded');
             let fontSelect = document.getElementById("font-family");
-            fontSelect.options[fontSelect.options.length] = new Option(customFonts[run], customFonts[run]);
+            fontSelect.options[fontSelect.options.length] = new Option(importFonts[run], importFonts[run]);
         } catch (err) {
-            console.log(customFonts[run], 'font is not available');
+            console.log(importFonts[run], 'font is not available');
         }
     }
 }
@@ -134,21 +134,29 @@ export default function configCanvas(canvas, container, config, callback) {
     var lineV = new fabric.Line([ldeDocument.width / 2, 0, ldeDocument.width / 2, ldeDocument.height], {
         strokeWidth: 0,
         stroke: 'white',
+        selectable: false,
+        "evented": false,
     });
     canvas.add(lineV);
     var lineR = new fabric.Line([ldeDocument.width - 1, 0, ldeDocument.width - 1, ldeDocument.height], {
         strokeWidth: 0,
         stroke: 'white',
+        selectable: false,
+        "evented": false,
     });
     canvas.add(lineR);
     var lineH = new fabric.Line([0, ldeDocument.height / 2, ldeDocument.width, ldeDocument.height / 2], {
         strokeWidth: 0,
         stroke: 'white',
+        selectable: false,
+        "evented": false,
     });
     canvas.add(lineH);
     var lineB = new fabric.Line([0, ldeDocument.height - 1, ldeDocument.width, ldeDocument.height - 1], {
         strokeWidth: 0,
         stroke: 'white',
+        selectable: false,
+        "evented": false,
     });
     canvas.add(lineB);
 

@@ -3,7 +3,7 @@ export let canvasbgColorWidget, shapeColorWidget, shapefillColorWidget, textColo
 export function initToolbar(canvas) {
     let toolbox = document.getElementById("toolbox");
     toolbox.innerHTML =
-    '<div style="font-size:12px; color:blue; text-align:center; padding-bottom:2px;"><b>New!</b> i) Background gradients ii) Char spacing, iii) A few pre-loaded google fonts</div>' + 
+        '<div style="font-size:12px; color:blue; text-align:center; padding-bottom:2px;"><b>New!</b> Line shape</div>' +
         '<div class="widget-group">'
         + '<span class="tool-item undo" title="Undo"><i class="bi-arrow-counterclockwise"></i></span><span class="tool-item redo" title="Redo"><i class="bi-arrow-clockwise"></i></span>'
         + '</div>'
@@ -36,7 +36,7 @@ export function initToolbar(canvas) {
                 <button class="inc-fontsize"></button>
             </div>`
         + '</div>'
-        
+
         + '<div class="widget-group entity-tools text-tools" style="padding-top:0;">'
         + `
             <div class="number-input" title="Char spacing">
@@ -45,7 +45,7 @@ export function initToolbar(canvas) {
                 <button class="inc-charspace"></button>
             </div>`
         + '</div>'
-        
+
         + '<div class="widget-group entity-tools text-tools">'
         + '<span class="tool-item bold-text"><i class="bi-type-bold"></i></span>'
         + '<span class="tool-item underline-text"><i class="bi-type-underline"></i></span>'
@@ -69,10 +69,11 @@ export function initToolbar(canvas) {
         + '<span class="tool-item circle-btn" title="Add Circle"><i class="bi-circle"></i></span>'
         + '<span class="tool-item hexagon-btn" title="Add Hexagon"><i class="bi-hexagon"></i></span>'
         + '<span class="tool-item triangle-btn" title="Add Triangle"><i class="bi-triangle"></i></span>'
+        + '<span class="tool-item line-btn" title="Add Line"><i class="bi-slash-lg"></i></span>'
         + '</div>'
 
         + '<div class="widget-group entity-tools shape-tools" style="display: none;">'
-        + '<span id="shape-color-btn" class="tool-item" style="border-bottom:3px solid white; padding-bottom:0;"><i class="bi-gem"></i></span>'
+        + '<span id="shape-color-btn" class="tool-item" style="border-bottom:3px solid crimson; padding-bottom:0;"><i class="bi-gem"></i></span>'
         + '<span id="shape-fillcolor-btn" class="tool-item" style="border-bottom:3px solid rgba(0, 0 , 255, 0.8); padding-bottom:0;"><i class="bi-paint-bucket"></i></span>'
         + '<span class="tool-item" title="Border width">'
         + '<select name="border-weight" class="border-weight">'
@@ -149,7 +150,8 @@ export function updateToolbarOnElementSelect(e, canvas) {
         textColorWidget.setColor(canvas.getActiveObject().get('stroke'));
         textbgColorWidget.setColor(canvas.getActiveObject().get('backgroundColor'));
     }
-    else if (e.selected[0].get('type') === 'rect' || e.selected[0].get('type') === 'circle' || e.selected[0].get('type') === 'polygon') {
+    else if (e.selected[0].get('type') === 'rect' || e.selected[0].get('type') === 'circle' ||
+        e.selected[0].get('type') === 'polygon' || e.selected[0].get('type') === 'line') {
         document.querySelectorAll('.entity-tools').forEach(function (el) {
             el.style.display = 'none';
         });

@@ -11,8 +11,10 @@ export default function editor(containerId, config, callback) {
 
     let container = document.getElementById(containerId);
     container.classList.add('editor');
-    container.innerHTML = '<div id="header"></div>'
+    container.innerHTML =
+        '<div id="header"></div>'
         + '<div class="toolboxContainer"><div id="toolbox"></div></div>'
+
         + '<div class="one-more-bar">'
         + '<div id="sizeDisplay" style="float:left; padding: 2px 4px; color: #666; font-size: 13px; background-color: #ddd;"></div>'
         + '<div id="resize-btn" style="float:left; padding: 2px 8px; color: #444; font-size: 14px; cursor: pointer;">Resize</div>'
@@ -25,6 +27,7 @@ export default function editor(containerId, config, callback) {
         + '</div>'
         + '</div>'
         + '<div style="clear:both;"></div>'
+
         + '<div class="grid-container">'
         + '<div class="main-content_large">'
         + '<div class="canvasContainer"><div class="canvasWrapper"><canvas id="editorCanvas"></canvas></div></div>'
@@ -33,6 +36,7 @@ export default function editor(containerId, config, callback) {
         + '<div style="min-height:40px;" class="collapse-button-container"><button class="collapse-button">X</button></div>'
         + '<div id="sidebar-content"><div id="template-content"></div><div id="bg-content"></div></div>'
         + '</div>'
+
         + '</div>';
 
     // https://codepen.io/DeolaJ/pen/xvjbKY

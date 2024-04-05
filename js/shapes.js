@@ -126,13 +126,31 @@ export default function initShapes(canvas) {
     }
 
 
+    let addLine = document.getElementsByClassName("line-btn")[0];
+    addLine.onclick = function () {
+        let line = new fabric.Line([ldeDocument.width*0.3, ldeDocument.height*0.7, ldeDocument.width*0.7, ldeDocument.height*0.3],
+            {
+                originX: "center",
+                originY: "center",
+                strokeWidth: 1,
+                fill: document.getElementById("shape-fillcolor-btn").style.borderBottomColor,
+                stroke: document.getElementById("shape-color-btn").style.borderBottomColor,
+                transparentCorners: false,
+                cornerSize: 10
+            });
+        canvas.add(line);
+        canvas.setActiveObject(line);
+        canvas.renderAll();
+    }
+
     shapeColorWidget.on('change', (ev) => {
         document.getElementById("shape-color-btn").style.borderBottomColor = ev.hex;
         if (canvas.getActiveObject() &&
             (
                 canvas.getActiveObject().get('type') === "rect" ||
                 canvas.getActiveObject().get('type') === "circle" ||
-                canvas.getActiveObject().get('type') === "polygon"
+                canvas.getActiveObject().get('type') === "polygon" ||
+                canvas.getActiveObject().get('type') === "line"
             )) {
             canvas.getActiveObject().set('stroke', ev.hex);
             canvas.renderAll();
@@ -145,7 +163,8 @@ export default function initShapes(canvas) {
             (
                 canvas.getActiveObject().get('type') === "rect" ||
                 canvas.getActiveObject().get('type') === "circle" ||
-                canvas.getActiveObject().get('type') === "polygon"
+                canvas.getActiveObject().get('type') === "polygon" ||
+                canvas.getActiveObject().get('type') === "line"
             )) {
             canvas.getActiveObject().set('fill', ev.hex);
             canvas.renderAll();
