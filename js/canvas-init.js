@@ -17,6 +17,38 @@ const importFonts = [];
 
 export const ldeDocument = { width: 512, height: 512 };
 
+function addSnapLines(canvas) {
+    
+    // dummy vertical and horizontal lines for snapping to the center guidelines
+    var lineV = new fabric.Line([ldeDocument.width / 2, 0, ldeDocument.width / 2, ldeDocument.height], {
+        strokeWidth: 0,
+        stroke: 'white',
+        selectable: false,
+        excludeFromExport: true,
+    });
+    canvas.add(lineV);
+    var lineR = new fabric.Line([ldeDocument.width - 1, 0, ldeDocument.width - 1, ldeDocument.height], {
+        strokeWidth: 0,
+        stroke: 'white',
+        selectable: false,
+        excludeFromExport: true,
+    });
+    canvas.add(lineR);
+    var lineH = new fabric.Line([0, ldeDocument.height / 2, ldeDocument.width, ldeDocument.height / 2], {
+        strokeWidth: 0,
+        stroke: 'white',
+        selectable: false,
+        excludeFromExport: true,
+    });
+    canvas.add(lineH);
+    var lineB = new fabric.Line([0, ldeDocument.height - 1, ldeDocument.width, ldeDocument.height - 1], {
+        strokeWidth: 0,
+        stroke: 'white',
+        selectable: false,
+        excludeFromExport: true,
+    });
+    canvas.add(lineB);
+}
 
 // load custom fonts based on imported fabric js file
 async function loadJsonFonts(json) {
@@ -64,6 +96,7 @@ export async function renderFabricJson(canvas, json) {
     ldeDocument.width = json.width;
     var sizeDisplay = document.getElementById("sizeDisplay");
     sizeDisplay.innerHTML = ldeDocument.width + ' x ' + ldeDocument.height;
+    addSnapLines(canvas);
 
     var sliderRange = document.getElementById("sliderRange");
     sliderRange.value = 100;
@@ -130,36 +163,7 @@ export default function configCanvas(canvas, container, config, callback) {
             canvas.setBackgroundImage(image);
     }
 
-    // dummy vertical and horizontal lines for snapping to the center guidelines
-    var lineV = new fabric.Line([ldeDocument.width / 2, 0, ldeDocument.width / 2, ldeDocument.height], {
-        strokeWidth: 0,
-        stroke: 'white',
-        selectable: false,
-        "evented": false,
-    });
-    canvas.add(lineV);
-    var lineR = new fabric.Line([ldeDocument.width - 1, 0, ldeDocument.width - 1, ldeDocument.height], {
-        strokeWidth: 0,
-        stroke: 'white',
-        selectable: false,
-        "evented": false,
-    });
-    canvas.add(lineR);
-    var lineH = new fabric.Line([0, ldeDocument.height / 2, ldeDocument.width, ldeDocument.height / 2], {
-        strokeWidth: 0,
-        stroke: 'white',
-        selectable: false,
-        "evented": false,
-    });
-    canvas.add(lineH);
-    var lineB = new fabric.Line([0, ldeDocument.height - 1, ldeDocument.width, ldeDocument.height - 1], {
-        strokeWidth: 0,
-        stroke: 'white',
-        selectable: false,
-        "evented": false,
-    });
-    canvas.add(lineB);
-
+    addSnapLines(canvas);
     canvas.historyInit();
     //canvas.offHistory();
 
