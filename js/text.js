@@ -4,6 +4,7 @@ import { ldeDocument } from "./canvas-init.js";
 export default function initText(canvas) {
     let addText = document.getElementsByClassName("add-text")[0];
     addText.onclick = function () {
+        document.querySelector('.toolbar-2').style.display = 'flex';
         let text = new fabric.Textbox('Double click to edit text!', {
             fill: document.getElementById("text-color-btn").style.borderBottomColor,
             stroke: document.getElementById("text-color-btn").style.borderBottomColor,

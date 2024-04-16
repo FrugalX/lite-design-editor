@@ -16,7 +16,7 @@ export default function editor(containerId, config, callback) {
         +   `<div class="toolboxContainer">
                 <!--div style="font-size:12px; color:blue; text-align:center; padding-bottom:2px;"><b>New!</b> UI updates</div-->
                 <div class="toolbox toolbar-1"></div>
-                <div class="toolbox toolbar-2"></div>
+                <div class="toolbox toolbar-2" style="display: none;"></div>
             </div>`
 
         + '<div class="one-more-bar">'

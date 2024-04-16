@@ -4,6 +4,7 @@ import { ldeDocument } from "./canvas-init.js";
 export default function initShapes(canvas) {
     let addShapes = document.getElementsByClassName("shapes-btn")[0];
     addShapes.onclick = function () {
+        document.querySelector('.toolbar-2').style.display = 'flex';
         document.querySelectorAll('.entity-tools').forEach(function (el) {
             el.style.display = 'none';
         });

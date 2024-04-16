@@ -3,6 +3,7 @@ import { ldeDocument } from "./canvas-init.js";
 export default function initImage(canvas) {
     // Add image
     document.getElementsByClassName("img-input")[0].addEventListener('change', function (event) {
+        document.querySelector('.toolbar-2').style.display = 'flex';
         if (event.target.files.length > 0) {
             const imgFile = event.target.files[0];
             const reader = new FileReader();
