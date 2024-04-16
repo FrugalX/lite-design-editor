@@ -8,7 +8,7 @@ export default function initShapes(canvas) {
             el.style.display = 'none';
         });
         document.querySelectorAll('.shape-tools').forEach(function (el) {
-            el.style.display = 'block';
+            el.style.display = 'flex';
         });
     }
 
@@ -26,9 +26,7 @@ export default function initShapes(canvas) {
             strokeWidth: 1,
             strokeUniform: true,
             fill: document.getElementById("shape-fillcolor-btn").style.borderBottomColor,
-            stroke: document.getElementById("shape-color-btn").style.borderBottomColor,
-            transparentCorners: false,
-            cornerSize: 10
+            stroke: document.getElementById("shape-color-btn").style.borderBottomColor
         });
         rect.on('scaling', function () {
             this.set({
@@ -54,9 +52,7 @@ export default function initShapes(canvas) {
             strokeWidth: 1,
             strokeUniform: true,
             fill: document.getElementById("shape-fillcolor-btn").style.borderBottomColor,
-            stroke: document.getElementById("shape-color-btn").style.borderBottomColor,
-            transparentCorners: false,
-            cornerSize: 10
+            stroke: document.getElementById("shape-color-btn").style.borderBottomColor
         });
         canvas.add(circle);
         canvas.setActiveObject(circle);
@@ -97,9 +93,7 @@ export default function initShapes(canvas) {
                 top: ldeDocument.height / 2,
                 strokeLineJoin: 'bevil',
                 fill: document.getElementById("shape-fillcolor-btn").style.borderBottomColor,
-                stroke: document.getElementById("shape-color-btn").style.borderBottomColor,
-                transparentCorners: false,
-                cornerSize: 10
+                stroke: document.getElementById("shape-color-btn").style.borderBottomColor
             });
         canvas.add(hexagon);
         canvas.setActiveObject(hexagon);
@@ -116,9 +110,7 @@ export default function initShapes(canvas) {
                 top: ldeDocument.height / 2,
                 strokeLineJoin: 'bevil',
                 fill: document.getElementById("shape-fillcolor-btn").style.borderBottomColor,
-                stroke: document.getElementById("shape-color-btn").style.borderBottomColor,
-                transparentCorners: false,
-                cornerSize: 10
+                stroke: document.getElementById("shape-color-btn").style.borderBottomColor
             });
         canvas.add(triangle);
         canvas.setActiveObject(triangle);
@@ -134,9 +126,7 @@ export default function initShapes(canvas) {
                 originY: "center",
                 strokeWidth: 1,
                 fill: document.getElementById("shape-fillcolor-btn").style.borderBottomColor,
-                stroke: document.getElementById("shape-color-btn").style.borderBottomColor,
-                transparentCorners: false,
-                cornerSize: 10
+                stroke: document.getElementById("shape-color-btn").style.borderBottomColor
             });
         canvas.add(line);
         canvas.setActiveObject(line);

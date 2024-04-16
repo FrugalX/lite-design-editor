@@ -1,5 +1,5 @@
 
-import { updateToolbarOnElementSelect, onElementDeselect, canvasbgColorWidget } from "./toolbox.js"
+import { updateToolbarOnElementSelect, onElementDeselect, canvasbgColorWidget } from "./canva-toolbox.js"
 
 var fontList = [
     "Arial",
@@ -18,7 +18,7 @@ const importFonts = [];
 export const ldeDocument = { width: 512, height: 512 };
 
 function addSnapLines(canvas) {
-
+    
     // dummy vertical and horizontal lines for snapping to the center guidelines
     var lineV = new fabric.Line([ldeDocument.width / 2, 0, ldeDocument.width / 2, ldeDocument.height], {
         strokeWidth: 0,
@@ -90,22 +90,29 @@ async function loadJsonFonts(json) {
 }
 
 export async function renderFabricJson(canvas, json) {
-    let initialMargin = 130; // 2*56 + 28; 28 for vertical sroll width
+    let initialCanvasMargin = 130; // 2*56 + 28; 28px for vertical sroll width
+    let initialWidth = document.querySelector('.css-zl9bor').offsetWidth - initialCanvasMargin;
+
     canvas.clear();
     ldeDocument.height = json.height;
-    ldeDocument.width = json.width;    
-    let initialWidth = document.querySelector('.canvasContainer').offsetWidth - initialMargin;
-    let initialZoomfactor = parseInt(initialWidth / ldeDocument.width * 100) / 100;
-    if (initialZoomfactor > 1) initialZoomfactor = 1;
-    canvas.setDimensions({ width: ldeDocument.width * initialZoomfactor, height: ldeDocument.height * initialZoomfactor });
+    ldeDocument.width = json.width;
+    let initialZoomfactor = parseInt(initialWidth / ldeDocument.width * 100)/100;
+    initialWidth = ldeDocument.width * initialZoomfactor;
+    document.querySelector('.page-header').style.width = initialWidth + 'px';
+    document.querySelector('.page-body').style.width = initialWidth + 'px';
+    document.querySelector('.page-body').style.height = initialWidth * (ldeDocument.height / ldeDocument.width) + 'px';
+    canvas.setDimensions({ width: json.width * initialZoomfactor, height: json.height*initialZoomfactor });
     canvas.setZoom(initialZoomfactor);
-    var sizeDisplay = document.getElementById("sizeDisplay");
-    sizeDisplay.innerHTML = ldeDocument.width + ' x ' + ldeDocument.height;
+
+    //var sizeDisplay = document.getElementById("sizeDisplay");
+    //sizeDisplay.innerHTML = ldeDocument.width + ' x ' + ldeDocument.height;
     addSnapLines(canvas);
 
     var sliderRange = document.getElementById("sliderRange");
-    sliderRange.value = initialZoomfactor*100;
-    document.querySelector('.zoom-value').innerHTML = sliderRange.value + '%';
+    sliderRange.value = parseInt(initialWidth / ldeDocument.width * 100);
+    document.querySelector('.zoom-value').innerHTML = sliderRange.value;
+
+
     await loadJsonFonts(json);
     canvas.loadFromJSON(json, function () {
         if (json.backgroundGradient !== undefined) {
@@ -117,9 +124,7 @@ export async function renderFabricJson(canvas, json) {
     });
 }
 
-export default function configCanvas(canvas, container, config, callback) {
-    let initialMargin = 130; // 2*56 + 28; 28 for vertical sroll width
-
+export default function configCanvas(canvas, config, callback) {
     // Initialize fabricjs canvas
     if (config.image !== undefined) {
         ldeDocument.width = config.image.naturalWidth;
@@ -129,22 +134,24 @@ export default function configCanvas(canvas, container, config, callback) {
         ldeDocument.width = config.width;
         ldeDocument.height = config.height;
     }
-    let initialWidth = document.querySelector('.canvasContainer').offsetWidth - initialMargin;
-    let initialZoomfactor = parseInt(initialWidth / ldeDocument.width * 100) / 100;
-    if (initialZoomfactor > 1) initialZoomfactor = 1;
-    canvas.setDimensions({ width: ldeDocument.width * initialZoomfactor, height: ldeDocument.height * initialZoomfactor });
-    canvas.setZoom(initialZoomfactor);
-    var sizeDisplay = document.getElementById("sizeDisplay");
-    sizeDisplay.innerHTML = ldeDocument.width + ' x ' + ldeDocument.height;
+    console.log(ldeDocument);
+    let sliderRange = document.getElementById("sliderRange");
+    let zoomFactor = sliderRange.value / 100;
+    canvas.setDimensions({ width: ldeDocument.width * zoomFactor, height: ldeDocument.height * zoomFactor });
+    canvas.setZoom(zoomFactor);
+    //var sizeDisplay = document.getElementById("sizeDisplay");
+    //sizeDisplay.innerHTML = ldeDocument.width + ' x ' + ldeDocument.height;
 
-    var sliderRange = document.getElementById("sliderRange");
-    sliderRange.value = initialZoomfactor*100;
-    document.querySelector('.zoom-value').innerHTML = sliderRange.value + '%';
     sliderRange.oninput = function () {
         let zoomFactor = this.value / 100;
         document.querySelector('.zoom-value').innerHTML = this.value + '%';
         canvas.setDimensions({ width: ldeDocument.width * zoomFactor, height: ldeDocument.height * zoomFactor });
         canvas.setZoom(zoomFactor);
+
+        document.querySelector('.page-header').style.width = zoomFactor * ldeDocument.width + 'px';
+
+        document.querySelector('.page-body').style.width = zoomFactor * ldeDocument.width + 'px';
+        document.querySelector('.page-body').style.height = zoomFactor * ldeDocument.width * ldeDocument.height / ldeDocument.width + 'px';
     }
 
     initAligningGuidelines(canvas);
@@ -182,13 +189,8 @@ export default function configCanvas(canvas, container, config, callback) {
     })
 
     // Download
-    let downloadBtn = document.getElementById("download-btn");
+    let downloadBtn = document.querySelector(".download-btn");
     downloadBtn.onclick = function () {
-        canvas.setDimensions({ width: ldeDocument.width, height: ldeDocument.height });
-        canvas.setZoom(1.0);
-        canvas.renderAll();
-        var sliderRange = document.getElementById("sliderRange");
-        sliderRange.value = 100;
         let image = canvas.toDataURL("png");
         let link = document.createElement('a');
         link.download = 'download.png';
@@ -202,8 +204,6 @@ export default function configCanvas(canvas, container, config, callback) {
         canvas.setDimensions({ width: ldeDocument.width, height: ldeDocument.height });
         canvas.setZoom(1.0);
         canvas.renderAll();
-        var sliderRange = document.getElementById("sliderRange");
-        sliderRange.value = 100;
         let doc = canvas.toJSON(['selectable', 'width', 'height', 'backgroundGradient']);
         let data = JSON.stringify(doc);
         // Save the JSON string to a file
@@ -264,7 +264,7 @@ export default function configCanvas(canvas, container, config, callback) {
         let jsonData = JSON.stringify(ldeDocument);
         let image = canvas.toDataURL("png");
         let returnData = { json: jsonData, image: image }
-        container.innerHTML = "";
+        //container.innerHTML = "";
         callback(returnData);
     }
 }

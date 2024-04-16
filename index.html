@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="../css/editor.css">
     <style>
         body {
-            min-height: 100vh;
             background-color: #fdfdfd;
             font-family: 'Open Sans', sans-serif;
             margin: 0;
@@ -61,7 +60,35 @@
 
         @media screen and (max-width: 768px) {}
 
-        @media screen and (max-width: 576px) {}
+        @media screen and (max-width: 576px) {
+            #header #headerTitle {
+                font-size: 20px;
+            }
+
+            #header .headerMenu {
+                gap: 12px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            #sliderRange {
+                min-width: 150px;
+            }
+
+            #header .headerMenu {
+                gap: 10px;
+            }
+
+            #header .headerMenuItem {
+                font-size: 13px;
+            }
+        }
+
+        @media screen and (max-width: 360px) {
+            #sizeDisplay {
+                display: none;
+            }
+        }
     </style>
 </head>
 

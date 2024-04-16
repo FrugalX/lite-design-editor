@@ -1,5 +1,5 @@
-import { textColorWidget, textbgColorWidget } from "./toolbox.js";
-import { ldeDocument } from "./canvas-init.js";
+import { textColorWidget, textbgColorWidget } from "./canva-toolbox.js";
+import { ldeDocument } from "./canva-canvas.js";
 
 export default function initText(canvas) {
     let addText = document.getElementsByClassName("add-text")[0];
@@ -19,7 +19,6 @@ export default function initText(canvas) {
             top: ldeDocument.height / 2,
             left: ldeDocument.width / 2
         });
-
         // Render the Text on Canvas
         canvas.add(text);
         canvas.setActiveObject(text);

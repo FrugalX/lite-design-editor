@@ -16,9 +16,7 @@ export default function initImage(canvas) {
                         originY: "center",
                         top: ldeDocument.height / 2,
                         originX: "center",
-                        left: ldeDocument.width / 2,
-                        transparentCorners: false,
-                        cornerSize: 10
+                        left: ldeDocument.width / 2
                     });
                     imgInstance.setControlsVisibility({
                         mt: false,
@@ -49,9 +47,7 @@ export default function initImage(canvas) {
                         originY: "center",
                         top: ldeDocument.height / 2,
                         originX: "center",
-                        left: ldeDocument.width / 2,
-                        transparentCorners: false,
-                        cornerSize: 10
+                        left: ldeDocument.width / 2
                     });
                     imgInstance.setControlsVisibility({
                         mt: false,

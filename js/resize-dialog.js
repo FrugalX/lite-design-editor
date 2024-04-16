@@ -27,14 +27,14 @@ const resizeDialog = `
 export default function addResizeDialog(canvas) {
     document.body.insertAdjacentHTML('beforeend', resizeDialog);
     
-    const showBtn = document.getElementById("resize-btn");
+    const resizeBtn = document.getElementById("resize-btn");
     const dialog = document.getElementById("resizeDialog");
     const confirmBtn = dialog.querySelector("#confirmBtn");
     const widthEl = dialog.querySelector("#width");
     const heightEl = dialog.querySelector("#height");
     const returnVal = { width: ldeDocument.width, height: ldeDocument.height }
 
-    showBtn.addEventListener("click", () => {
+    resizeBtn.addEventListener("click", () => {
         dialog.showModal();
         widthEl.value = ldeDocument.width;
         heightEl.value = ldeDocument.height;

@@ -1,15 +1,15 @@
 export default function initHeader(config) {
-    let header = document.getElementById("header");
+    let header = document.querySelector(".header");
     if (config !== undefined && config.header === false) {
         header.style.display = "none";
     }
     else {
         let headerTitle = '<div id="headerTitle"><b>Lite</b> Design Editor</div>';
-        let headerMenu = '<div class="headerMenu"><div id="close-btn" class="headerMenuItem"><span title="Close and return Json and Image">Close</span></div>'
-        + '<div class="headerMenuItem"><span id="download-btn" title="Download Image">Download</span></div>'
-        + '<div id="import-btn" class="headerMenuItem"><input type="file" id="jsonInput" accept=".json,.tpl"><label for="jsonInput"><span style="cursor:pointer;" title="Import Json">Import</span></label></div>'
-        + '<div id="export-btn" class="headerMenuItem"><span title="Export Json">Export</span></div>'
-        + '</div>';
+        let headerMenu = '<div class="headerMenu">'
+            + '<div id="export-btn" class="headerMenuItem"><span title="Export Json">Export</span></div>'
+            + '<div id="import-btn" class="headerMenuItem"><input type="file" id="jsonInput" accept=".json,.tpl"><label for="jsonInput"><span style="cursor:pointer;" title="Import Json">Import</span></label></div>'
+            + '<div id="close-btn" class="headerMenuItem"><span title="Close and return Json and Image">Close</span></div>'
+            + '</div>';
         header.innerHTML = headerTitle + headerMenu;
 
         if (config !== undefined) {

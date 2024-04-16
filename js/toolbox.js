@@ -1,22 +1,43 @@
 export let canvasbgColorWidget, shapeColorWidget, shapefillColorWidget, textColorWidget, textbgColorWidget;
 
 export function initToolbar(canvas) {
-    let toolbox = document.getElementById("toolbox");
-    toolbox.innerHTML =
-        '<div style="font-size:12px; color:blue; text-align:center; padding-bottom:2px;"><b>New!</b> Line shape</div>' +
-        '<div class="widget-group">'
+    let toolbar1 = document.querySelector(".toolbar-1");
+    toolbar1.innerHTML =
+        '<div class="widget-container">'
+
+        + `<div class="menuitem-top template-btn" >
+            <div class="menuitem-icon"><i class="bi bi-columns"></i></div>
+            <span class="menuitem-text">Template</span>
+            </div>`
+        + `<div class="menuitem-top add-text">
+            <div class="menuitem-icon"><i class="bi bi-fonts"></i></div>
+            <span class="menuitem-text">Text</span>
+            </div>`
+        + `<div class="menuitem-top img-btn">
+            <input type="file" id="img-input" class="img-input"  accept="image/*"/>
+            <label for="img-input">
+            <div class="menuitem-icon"><i class="bi bi-image"></i></div>
+            <span class="menuitem-text">Image</span></label>
+            </div>`
+        + `<div class="menuitem-top shapes-btn">
+            <div class="menuitem-icon"><i class="bi bi-gem"></i></div>
+            <span class="menuitem-text">Shape</span>
+            </div>`
+        + `<div class="menuitem-top" id="canvas-bgcolor-btn" style="--color: rgb(0, 0, 0);">
+            <div class="menuitem-icon"><i class="bi bi-bricks"></i></div>
+            <span class="menuitem-text">Background</span>
+            </div>`
+        + '</div>'
+
+    let toolbar2 = document.querySelector(".toolbar-2");
+    toolbar2.innerHTML =
+        '<div class="widget-container">'
+        + '<div class="widget-group">'
         + '<span class="tool-item undo" title="Undo"><i class="bi-arrow-counterclockwise"></i></span><span class="tool-item redo" title="Redo"><i class="bi-arrow-clockwise"></i></span>'
         + '</div>'
-
-        + '<div class="widget-group">'
-        + '<span class="tool-item add-text" title="Add Text"><i class="bi bi-fonts"></i></span>'
-        + '<input type="file" id="img-input" class="img-input"  accept="image/*"/><label for="img-input">'
-        + '<span class="tool-item img-btn" title="Add Image"><i class="bi-image"></i></span></label>'
-        + '<span class="tool-item shapes-btn" title="Add Shapes"><i class="bi-gem"></i></span>'
-        + '</div>'
-
++ '<div class="separator redo-undo-separator"></div>'
         + '<div class="widget-group entity-tools text-tools">'
-        + '<span class="tool-item">'
+        + '<span class="tool-item" style="margin-top:-8px;">'
         + '<select name="font-family" class="font-family" id="font-family">'
         + '<option value="Arial", style="font-family: Arial;">Arial</option>'
         + '<option value="Courier New" style="font-family: Courier New;">Courier New</option>'
@@ -27,7 +48,7 @@ export function initToolbar(canvas) {
         + '<option value="Verdana" style="font-family: Verdana;">Verdana</option>'
         + '</select></span>'
         + '</div>'
-
+        + '<div class="separator entity-tools text-tools"></div>'
         + '<div class="widget-group entity-tools text-tools" style="padding-top:0;">'
         + `
             <div class="number-input" title="Font size">
@@ -36,7 +57,7 @@ export function initToolbar(canvas) {
                 <button class="inc-fontsize"></button>
             </div>`
         + '</div>'
-
+        + '<div class="separator entity-tools text-tools"></div>'
         + '<div class="widget-group entity-tools text-tools" style="padding-top:0;">'
         + `
             <div class="number-input" title="Char spacing">
@@ -45,25 +66,25 @@ export function initToolbar(canvas) {
                 <button class="inc-charspace"></button>
             </div>`
         + '</div>'
-
+        + '<div class="separator entity-tools text-tools"></div>'
         + '<div class="widget-group entity-tools text-tools">'
         + '<span class="tool-item bold-text"><i class="bi-type-bold"></i></span>'
         + '<span class="tool-item underline-text"><i class="bi-type-underline"></i></span>'
         + '<span class="tool-item italic-text"><i class="bi-type-italic"></i></span>'
         + '</div>'
-
+        + '<div class="separator entity-tools text-tools"></div>'
         + '<div class="widget-group entity-tools text-tools">'
         + '<span id="text-color-btn" class="tool-item" style="border-bottom:3px solid red; padding-bottom:0;"><i class="bi-fonts" title="Text Color"></i></span>'
         + '<span id="text-bgcolor-btn" class="tool-item" style="border-bottom:3px solid rgba(255, 0 , 0, 0.2); padding-bottom:0;" title="Text Background Color"><i class="bi-paint-bucket"></i></span>'
         + '</div>'
-
+        + '<div class="separator entity-tools text-tools"></div>'
         + '<div class="widget-group entity-tools text-tools">'
         + '<span class="tool-item left-align"><i class="bi-text-left"></i></span>'
         + '<span class="tool-item center-align"><i class="bi-text-center"></i></span>'
         + '<span class="tool-item right-align"><i class="bi-text-right"></i></span>'
         + '<span class="tool-item justify-align"><i class="bi-justify"></i></span>'
         + '</div>'
-
+        + '<div class="separator entity-tools text-tools"></div>'
         + '<div class="widget-group entity-tools shape-tools">'
         + '<span class="tool-item rect-btn" title="Add Rectangle"><i class="bi-square"></i></span>'
         + '<span class="tool-item circle-btn" title="Add Circle"><i class="bi-circle"></i></span>'
@@ -71,7 +92,7 @@ export function initToolbar(canvas) {
         + '<span class="tool-item triangle-btn" title="Add Triangle"><i class="bi-triangle"></i></span>'
         + '<span class="tool-item line-btn" title="Add Line"><i class="bi-slash-lg"></i></span>'
         + '</div>'
-
+        + '<div class="separator entity-tools shape-tools"></div>'
         + '<div class="widget-group entity-tools shape-tools" style="display: none;">'
         + '<span id="shape-color-btn" class="tool-item" style="border-bottom:3px solid crimson; padding-bottom:0;"><i class="bi-gem"></i></span>'
         + '<span id="shape-fillcolor-btn" class="tool-item" style="border-bottom:3px solid rgba(0, 0 , 255, 0.8); padding-bottom:0;"><i class="bi-paint-bucket"></i></span>'
@@ -95,9 +116,9 @@ export function initToolbar(canvas) {
         + '</select>'
         + '</span>'
         + '</div>'
-
+        + '<div class="separator entity-tools shape-tools" style="display: none;"></div>'
         + '<div class="widget-group entity-tools image-tools" style="display: none;">'
-        + '<div style="float:left;">'
+        + '<div style="display: flex;">'
         + '<input type="file" id="img-replace" class="img-replace" hidden accept="image/*"/><label for="img-replace">'
         + '<span class="tool-item img-replace-btn" title="Replace Image"><i class="bi-arrow-left-right"></i></span></label>'
         + '<span class="img-vert-flip-btn tool-item" title="Flip horizontal"><i class="fa-solid bi-arrows"></i></span>'
@@ -114,17 +135,19 @@ export function initToolbar(canvas) {
         + '</div>'
         + '</div>'
         + '</div>'
-
-        + '<div class="widget-group change-layer-btns" style="display: none;">'
+        + '<div class="separator entity-tools image-tools" style="display: none;"></div>'
+        + '<div class="widget-group change-layer-btns">'
         + '<span class="pushbackward-btn tool-item" title="Push backward"><i class="bi-arrow-down"></i></span>'
         + '<span class="pullforward-btn tool-item" title="Pull forward"><i class="bi-arrow-up"></i></span>'
         + '<span class="sendback-btn tool-item" title="Send back"><i class="fa-solid bi-chevron-double-down"></i></span>'
         + '<span class="bringtofront-btn tool-item" title="Bring to front"><i class="bi-chevron-double-up"></i></span>'
         + '</div>'
-
+        + '<div class="separator clone-trash-tools-separator"></div>'
         + '<div class="widget-group">'
         + '<span class="clone-btn tool-item" title="Copy"><i class="bi-copy"></i></span>'
         + '<span class="trash-btn tool-item"><i class="bi-trash"></i></span>'
+        + '</div>'
+
         + '</div>'
 
     Alwan.setDefaults({ swatches: ['red', 'green', 'blue', 'cyan', 'magenta', 'black', 'white'] });
@@ -136,12 +159,14 @@ export function initToolbar(canvas) {
 }
 
 export function updateToolbarOnElementSelect(e, canvas) {
+    document.querySelector('.clone-trash-tools-separator').style.display = 'flex';
+    document.querySelector('.redo-undo-separator').style.display = 'flex';
     if (e.selected[0].get('type') === 'textbox') {
         document.querySelectorAll('.entity-tools').forEach(function (el) {
             el.style.display = 'none';
         });
         document.querySelectorAll('.text-tools').forEach(function (el) {
-            el.style.display = 'block';
+            el.style.display = 'flex';
         });
         document.getElementsByClassName("font-family")[0].value = canvas.getActiveObject().get('fontFamily');
         document.getElementsByClassName("font-size")[0].value = canvas.getActiveObject().get('fontSize');
@@ -156,7 +181,7 @@ export function updateToolbarOnElementSelect(e, canvas) {
             el.style.display = 'none';
         });
         document.querySelectorAll('.shape-tools').forEach(function (el) {
-            el.style.display = 'block';
+            el.style.display = 'flex';
         });
         document.getElementsByClassName("border-weight")[0].value = String(canvas.getActiveObject().get('strokeWidth'));
         document.getElementById('shape-color-btn').style.borderBottomColor = canvas.getActiveObject().get('stroke');
@@ -176,13 +201,13 @@ export function updateToolbarOnElementSelect(e, canvas) {
             el.style.display = 'none';
         });
         document.querySelectorAll('.image-tools').forEach(function (el) {
-            el.style.display = 'block';
+            el.style.display = 'flex';
         });
     }
     let trashBtn = document.getElementsByClassName("trash-btn")[0];
-    trashBtn.parentNode.style.display = 'block';
+    trashBtn.parentNode.style.display = 'flex';
     let changelayerBtn = document.getElementsByClassName("change-layer-btns")[0];
-    changelayerBtn.style.display = 'block';
+    changelayerBtn.style.display = 'flex';
 
     initCommonBtns(canvas);
 }
@@ -191,6 +216,8 @@ export function onElementDeselect(e) {
     document.querySelectorAll('.entity-tools').forEach(function (el) {
         el.style.display = 'none';
     });
+    document.querySelector('.clone-trash-tools-separator').style.display = 'none';
+    document.querySelector('.redo-undo-separator').style.display = 'none';
     let trashBtn = document.getElementsByClassName("trash-btn")[0];
     trashBtn.parentNode.style.display = 'none';
     let changelayerBtn = document.getElementsByClassName("change-layer-btns")[0];

@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>lite-design-editor</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alwan/dist/css/alwan.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/alwan/dist/js/alwan.min.js"></script>
+    <link rel="stylesheet" href="../css/editor.css">
+    <style>
+        body {
+            min-height: 100vh;
+            background-color: #fdfdfd;
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            color: #5E6278;
+            font-size: 14px;
+        }
+
+        *,
+        ::before,
+        ::after {
+            box-sizing: border-box;
+            border-width: 0;
+            border-style: solid;
+            border-color: currentColor;
+            outline: none;
+        }
+
+        .d-none {
+            display: none;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            max-height: 945px;
+        }
+
+        .app-area {
+            display: flex;
+            flex-direction: row;
+            flex: 1 1 auto;
+            overflow: auto;
+            background: rgb(235, 236, 240);
+        }
+
+        .menu-bar-container {
+            display: flex;
+            background: white;
+        }
+
+        .menu-bar-inner-container {
+            display: flex;
+            z-index: 2;
+            position: relative;
+            background-color: rgb(255, 255, 255);
+            border-right: 1px solid rgba(217, 219, 228, 0.6);
+        }
+
+        .menu-bar-inner2-container {
+            display: flex;
+        }
+
+        .main-menu-bar {
+            color: rgb(94, 98, 120);
+            border-right: 1px solid rgba(217, 219, 228, 0.6);
+            min-width: 72px;
+        }
+
+        .menuitems-container {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .menuitem {
+            border-bottom-right-radius: 0px;
+            border-top-right-radius: 8px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            -webkit-box-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            align-items: center;
+            padding: 0px 2px;
+            height: 72px;
+            width: 72px;
+            cursor: pointer;
+        }
+
+        .menuitem-icon {
+            font-size: 24px;
+        }
+
+        .menuitem-text {
+            font-size: 10px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .collapsible-menu {
+            width: 360px;
+        }
+
+        .collapsible-menu-inner {
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            overflow-y: auto;
+            display: flex;
+        }
+
+        .hide-collapsible-menu {
+            font-size: 20px;
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+        }
+
+        .collapsible-menu-header {
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            flex-shrink: 0;
+            height: 48px;
+            border-bottom: 1px solid rgba(57, 76, 96, 0.15);
+            padding: 0px 20px;
+        }
+
+        .collapsible-menu-header-text {
+            line-height: 48px;
+            font-weight: 500;
+            color: rgb(24, 28, 50);
+            -webkit-box-flex: 1;
+            flex-grow: 1;
+        }
+
+        .collapsible-menu-body {
+            flex-direction: column;
+            overflow-y: auto;
+            display: flex;
+        }
+
+        .cmbt-styles {
+            padding: 16px;
+            display: flex;
+            gap: 8px;
+            flex-direction: column;
+        }
+
+        .cmbt-style-0 {
+            font-size: 20px;
+            line-height: 1;
+            padding: 8px;
+            font-weight: 500;
+            color: white;
+            background: rgb(12, 59, 248);
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .cmbt-style-1 {
+            font-size: 28px;
+            line-height: 1;
+            padding: 16px;
+            font-weight: 700;
+            background: rgb(235, 236, 240);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .cmbt-style-2 {
+            font-size: 18px;
+            line-height: 1;
+            padding: 16px;
+            font-weight: 700;
+            background: rgb(235, 236, 240);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .cmbt-style-3 {
+            font-size: 12px;
+            line-height: 1;
+            padding: 16px;
+            font-weight: 700;
+            background: rgb(235, 236, 240);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .menu-placeholder {
+            width: 360px;
+            position: absolute;
+            overflow: hidden;
+            top: 0px;
+            left: 73px;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .app-body {
+            -webkit-box-flex: 1;
+            flex-grow: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: auto;
+        }
+
+        .css-zl9bor {
+            display: flex;
+            position: relative;
+            height: 100%;
+            overflow: scroll;
+        }
+
+        .css-4vnyer {
+            position: absolute;
+            display: flex;
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        .css-1iogwoz {
+            position: relative;
+            display: flex;
+            -webkit-box-flex: 1;
+            flex-grow: 1;
+            touch-action: pinch-zoom;
+        }
+
+        .page-header {
+            /* font-weight: bold; */
+            margin-top: 24px;
+            height: 28px;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            margin-bottom: 4px;
+            white-space: nowrap;
+        }
+
+        .css-i9gxme {
+            -webkit-box-flex: 1;
+            flex-grow: 1;
+        }
+
+        .css-ddwxjb {
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            font-size: 20px;
+            color: rgb(13, 18, 22);
+            height: 28px;
+            opacity: 0.7;
+        }
+
+        .css-r3yn49 {
+            margin-left: 8px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .page-body {
+            /* page-body */
+            position: relative;
+            margin: 0px;
+            box-shadow: rgba(14, 19, 24, 0.07) 0px 2px 8px;
+        }
+
+        .css-1gakva8 {
+            display: flex;
+            position: relative;
+            flex-direction: row;
+            -webkit-box-pack: center;
+            justify-content: center;
+            margin: auto;
+        }
+
+        .css-bx7rw6 {
+            margin-left: 56px;
+            margin-bottom: 30px;
+        }
+
+        .add-page-btn {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background: rgba(64, 87, 109, 0.07);
+            color: rgb(13, 18, 22);
+            text-align: center;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            border-radius: 8px;
+        }
+
+        .css-lavxed {
+            user-select: none;
+            background: white;
+            overflow: hidden;
+        }
+
+        .page-body-full-size {
+            position: relative;
+            left: 0px;
+            top: 0px;
+            z-index: 1;
+        }
+
+        .page-body-abs-placeholder {
+            position: absolute;
+            inset: 0px;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .css-1dsbg1u {
+            width: 56px;
+            pointer-events: none;
+        }
+
+        .toolbar-header {
+            background: white;
+            border-bottom: 1px solid rgba(57, 76, 96, 0.15);
+            height: 50px;
+            overflow-x: auto;
+            flex-shrink: 0;
+            scrollbar-width: thin;
+        }
+
+        .css-4ns52 {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 0px 8px;
+        }
+
+        .css-19fugzd {
+            display: grid;
+            -webkit-box-align: center;
+            align-items: center;
+            grid-auto-flow: column;
+            gap: 8px;
+            padding-right: 20px;
+        }
+
+        .toolbar-footer {
+            height: 40px;
+            background: rgb(255, 255, 255);
+            border-top: 1px solid rgba(57, 76, 96, 0.15);
+            display: grid;
+            -webkit-box-align: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .toolbar-footer-inner-container {
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            padding: 0px 8px;
+            font-weight: 500;
+        }
+
+        .pageno-container {
+            -webkit-box-flex: 1;
+            flex-grow: 1;
+            font-weight: 500;
+        }
+
+        .zoom-slider-container {
+            flex-shrink: 0;
+            display: grid;
+            grid-auto-flow: column;
+            column-gap: 8px;
+            -webkit-box-align: center;
+            align-items: center;
+        }
+
+        .zoom-slider-area {
+            width: 200px;
+            padding-right: 8px;
+        }
+
+        .zoom-value-container {
+            position: relative;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            border-radius: 4px;
+            height: 32px;
+            padding: 0px 4px;
+            cursor: pointer;
+            background-color: rgb(255, 255, 255);
+            white-space: nowrap;
+        }
+
+        .zoom-value {
+            width: 48px;
+            text-align: center;
+        }
+
+        .doc-container {
+            -webkit-box-flex: 1;
+            flex-grow: 1;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        input[type='range'] {
+            accent-color: gray;
+        }
+
+        @media screen and (max-width: 1200px) {}
+
+        @media screen and (max-width: 992px) {}
+
+        @media screen and (max-width: 768px) {}
+
+        @media screen and (max-width: 576px) {}
+    </style>
+    <style>
+        .header {
+            background: rgb(30, 30, 45);
+            color: white;
+            padding: 12px 32px;
+            display: flex;
+            -webkit-box-pack: justify;
+            justify-content: space-between;
+            -webkit-box-align: center;
+            align-items: center;
+        }
+
+        .header #headerTitle {
+            font-size: 24px;
+        }
+
+        .header .headerMenu {
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .header .headerMenuItem {
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .widget-group {
+            display: flex;
+            padding: 6px 4px 4px 4px;
+            background-color: #f8f8f8;
+            border-radius: 2px;
+            margin: 2px;
+        }
+
+        .text-tools {
+            display: flex;
+        }
+
+        .shape-tools {
+            display: flex;
+        }
+
+        .separator {
+            float: left;
+            padding: 0 4px;
+            color: #aaa;
+            margin-top: -2px;
+            font-size: 18px;
+        }
+
+        .tool-item {
+            padding: 2px 2px;
+            margin: 0 2px;
+            color: #000;
+            font-size: 1.15rem;
+        }
+
+        .dropdown {
+            float: left;
+            position: relative;
+        }
+
+        .dropdown .dropbtn {
+            border: none;
+            outline: none;
+            overflow: hidden;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: inherit;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: calc(100% + 0px);
+            background-color: #f9f9f9;
+            min-width: 100px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content div {
+            float: none;
+            color: black;
+            padding: 6px 12px;
+            font-size: 14px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content div:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        input[type="number"] {
+            -webkit-appearance: textfield;
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+        }
+
+        .number-input {
+            border: 1px solid #ddd;
+            display: inline-flex;
+            padding: 2px;
+            margin-top: 6px;
+            margin-bottom:3px;
+        }
+
+        .number-input,
+        .number-input * {
+            box-sizing: border-box;
+        }
+
+        .number-input button {
+            outline: none;
+            -webkit-appearance: none;
+            background-color: transparent;
+            border: none;
+            align-items: center;
+            justify-content: center;
+            width: 1.5rem;
+            height: 1.25rem;
+            cursor: pointer;
+            margin: 0;
+            position: relative;
+        }
+
+
+        .number-input button:before,
+        .number-input button:after {
+            display: inline-block;
+            position: absolute;
+            content: '';
+            width: 1rem;
+            height: 1.5px;
+            background-color: #212121;
+            transform: translate(-50%, -50%) scale(0.5);
+        }
+
+        .number-input button.inc-fontsize:after {
+            transform: translate(-50%, -50%) rotate(90deg) scale(0.5);
+        }
+
+        .number-input button.inc-charspace:after {
+            transform: translate(-50%, -50%) rotate(90deg) scale(0.5);
+        }
+
+        .number-input input[type=number] {
+            font-family: sans-serif;
+            max-width: 2.5rem;
+            padding: .5rem;
+            border: solid #ddd;
+            border-width: 0 1px;
+            font-size: 14px;
+            height: 1.25rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+        <div class="app-container">
+            <div class="header"></div>
+            <div class="app-area css-kj58a0">
+                <div class="menu-bar-container css-1ll1a4k">
+                    <div class="menu-bar-inner-container css-14hi016">
+                        <div class="menu-bar-inner2-container css-14hi016">
+                            <div class="main-menu-bar css-lhozno">
+                                <div class="menuitems-container css-32x41w">
+                                    <div class="menuitem template-btn">
+                                        <div class="menuitem-icon"><i class="bi bi-columns"></i></div>
+                                        <span class="menuitem-text">Template</span>
+                                    </div>
+                                    <div class="menuitem text-btn">
+                                        <div class="menuitem-icon"><i class="bi bi-fonts"></i></div>
+                                        <span class="menuitem-text">Text</span>
+                                    </div>
+                                    <div class="menuitem shape-btn">
+                                        <div class="menuitem-icon"><i class="bi bi-gem"></i></div>
+                                        <span class="menuitem-text">Shape</span>
+                                    </div>
+                                    <div class="menuitem image-btn">
+                                        <div class="menuitem-icon"><i class="bi bi-image"></i></div>
+                                        <span class="menuitem-text">Image</span>
+                                    </div>
+                                    <div class="menuitem" id="canvas-bgcolor-btn">
+                                        <div class="menuitem-icon"><i class="bi bi-image"></i></div>
+                                        <span class="menuitem-text">Background</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="collapsible-menu css-1ix44gv d-none">
+                                <div class="collapsible-menu-inner">
+                                    <div class="collapsible-menu-header">
+                                        <p class="collapsible-menu-header-text"></p>
+                                        <div class="hide-collapsible-menu"><i class="bi bi-x-lg"></i></div>
+                                    </div>
+                                    <div class="collapsible-menu-body">
+                                        <div class="collapsible-menu-body-items collapsible-menu-template-body d-none">
+                                        </div>
+                                        <div class="collapsible-menu-body-items collapsible-menu-text-body d-none">
+                                            <div class="cmbt-styles">
+                                                <div class="cmbt-style-0 add-text">Add Text</div>
+                                                <div class="cmbt-style-1">Add a heading</div>
+                                                <div class="cmbt-style-2">Add a subheading</div>
+                                                <div class="cmbt-style-3">Add a little bit of body text</div>
+                                            </div>
+                                        </div>
+                                        <div class="collapsible-menu-body-items collapsible-menu-shape-body d-none">
+                                        </div>
+                                        <div class="collapsible-menu-body-items collapsible-menu-image-body d-none">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="menu-placeholder" class="menu-placeholder css-lhozno"></div>
+                </div>
+
+                <div class="app-body css-1xppx45">
+                    <div class="toolbar-header css-ud5r2z">
+                        <div class="css-4ns52">
+                            <div class="css-19fugzd">
+                                <div class="widget-group">
+                                    <span class="tool-item undo" title="Undo"><i
+                                            class="bi-arrow-counterclockwise"></i></span>
+                                    <span class="tool-item redo" title="Redo"><i class="bi-arrow-clockwise"></i></span>
+                                </div>
+                                <div class="widget-group entity-tools text-tools">
+                                    <span class="tool-item">
+                                        <select name="font-family" class="font-family" id="font-family">
+                                            <option value="Arial" , style="font-family: Arial;">Arial</option>
+                                            <option value="Courier New" style="font-family: Courier New;">Courier New
+                                            </option>
+                                            <option value="Helvetica" style="font-family: Helvetica;">Helvetica</option>
+                                            <option value="Impact" style="font-family: Impact;">Impact</option>
+                                            <option value="Times New Roman" style="font-family: Times New Roman;"
+                                                selected>Times New Roman</option>
+                                            <option value="Trebuchet MS" style="font-family: Trebuchet MS;">Trebuchet MS
+                                            </option>
+                                            <option value="Verdana" style="font-family: Verdana;">Verdana</option>
+                                        </select></span>
+                                </div>
+
+                                <div class="widget-group entity-tools text-tools" style="padding-top:0;">
+
+                                    <div class="number-input" title="Font size">
+                                        <button class="dec-fontsize"></button>
+                                        <input class="font-size" min="0" name="font-size" value="28" type="number">
+                                        <button class="inc-fontsize"></button>
+                                    </div>
+                                </div>
+
+                                <div class="widget-group entity-tools text-tools" style="padding-top:0;">
+
+                                    <div class="number-input" title="Char spacing">
+                                        <button class="dec-charspace"></button>
+                                        <input class="charspace" min="-500" max="500" step="50" name="charspace"
+                                            value="0" type="number">
+                                        <button class="inc-charspace"></button>
+                                    </div>
+                                </div>
+
+                                <div class="widget-group entity-tools text-tools">
+                                    <span class="tool-item bold-text"><i class="bi-type-bold"></i></span>
+                                    <span class="tool-item underline-text"><i class="bi-type-underline"></i></span>
+                                    <span class="tool-item italic-text"><i class="bi-type-italic"></i></span>
+                                </div>
+
+                                <div class="widget-group entity-tools text-tools">
+                                    <span id="text-color-btn" class="tool-item"
+                                        style="border-bottom:3px solid red; padding-bottom:0;"><i class="bi-fonts"
+                                            title="Text Color"></i></span>
+                                    <span id="text-bgcolor-btn" class="tool-item"
+                                        style="border-bottom:3px solid rgba(255, 0 , 0, 0.2); padding-bottom:0;"
+                                        title="Text Background Color"><i class="bi-paint-bucket"></i></span>
+                                </div>
+
+                                <div class="widget-group entity-tools text-tools">
+                                    <span class="tool-item left-align"><i class="bi-text-left"></i></span>
+                                    <span class="tool-item center-align"><i class="bi-text-center"></i></span>
+                                    <span class="tool-item right-align"><i class="bi-text-right"></i></span>
+                                    <span class="tool-item justify-align"><i class="bi-justify"></i></span>
+                                </div>
+
+                                <div class="widget-group entity-tools shape-tools">
+                                    <span class="tool-item rect-btn" title="Add Rectangle"><i
+                                            class="bi-square"></i></span>
+                                    <span class="tool-item circle-btn" title="Add Circle"><i
+                                            class="bi-circle"></i></span>
+                                    <span class="tool-item hexagon-btn" title="Add Hexagon"><i
+                                            class="bi-hexagon"></i></span>
+                                    <span class="tool-item triangle-btn" title="Add Triangle"><i
+                                            class="bi-triangle"></i></span>
+                                    <span class="tool-item line-btn" title="Add Line"><i class="bi-slash-lg"></i></span>
+                                </div>
+
+                                <div class="widget-group entity-tools shape-tools" style="display: none;">
+                                    <span id="shape-color-btn" class="tool-item"
+                                        style="border-bottom:3px solid crimson; padding-bottom:0;"><i
+                                            class="bi-gem"></i></span>
+                                    <span id="shape-fillcolor-btn" class="tool-item"
+                                        style="border-bottom:3px solid rgba(0, 0 , 255, 0.8); padding-bottom:0;"><i
+                                            class="bi-paint-bucket"></i></span>
+                                    <span class="tool-item" title="Border width">
+                                        <select name="border-weight" class="border-weight">
+                                            <option value="0">0</option>
+                                            <option value="1" selected>1</option>
+                                            <option value="2">2</option>
+                                            <option value="4">4</option>
+                                            <option value="8">8</option>
+                                        </select>
+                                    </span>
+                                    <span class="tool-item" title="Border radius">
+                                        <select name="border-radius" class="border-radius"
+                                            style="color:blue; display:none;">
+                                            <option value="0">0</option>
+                                            <option value="4">4</option>
+                                            <option value="8">8</option>
+                                            <option value="12">12</option>
+                                            <option value="16" selected>16</option>
+                                            <option value="32">32</option>
+                                        </select>
+                                    </span>
+                                </div>
+
+                                <div class="widget-group entity-tools image-tools" style="display: none;">
+                                    <div style="float:left;">
+                                        <input type="file" id="img-replace" class="img-replace" hidden
+                                            accept="image/*" /><label for="img-replace">
+                                            <span class="tool-item img-replace-btn" title="Replace Image"><i
+                                                    class="bi-arrow-left-right"></i></span></label>
+                                        <span class="img-vert-flip-btn tool-item" title="Flip horizontal"><i
+                                                class="fa-solid bi-arrows"></i></span>
+                                        <span class="img-horz-flip-btn tool-item" title="Flip vertical"><i
+                                                class="bi-arrows-vertical"></i></span>
+                                        <span class="img-mask-btn tool-item" title="Add Mask"><i
+                                                class="bi-mask"></i></span>
+                                    </div>
+                                    <div class="dropdown">
+                                        <div><span class="img-filters-btn tool-item" title="Change transparency">
+                                                <i class="bi-transparency dropbtn"></i></span></div>
+                                        <div class="filterDropdown dropdown-content" style="right: 0;">
+                                            <div class="slidecontainer">
+                                                <input type="range" min="0" max="100" value="100"
+                                                    class="transparency-slider">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="widget-group change-layer-btns" style="display: none;">
+                                    <span class="pushbackward-btn tool-item" title="Push backward"><i
+                                            class="bi-arrow-down"></i></span>
+                                    <span class="pullforward-btn tool-item" title="Pull forward"><i
+                                            class="bi-arrow-up"></i></span>
+                                    <span class="sendback-btn tool-item" title="Send back"><i
+                                            class="fa-solid bi-chevron-double-down"></i></span>
+                                    <span class="bringtofront-btn tool-item" title="Bring to front"><i
+                                            class="bi-chevron-double-up"></i></span>
+                                </div>
+
+                                <div class="widget-group">
+                                    <span class="clone-btn tool-item" title="Copy"><i class="bi-copy"></i></span>
+                                    <span class="trash-btn tool-item"><i class="bi-trash"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="doc-container css-1s0zv29">
+                        <div class="css-zl9bor">
+                            <div class="css-4vnyer">
+                                <div class="css-1iogwoz">
+                                    <div class="css-1gakva8">
+                                        <div class="css-bx7rw6">
+                                            <div class="css-1979fae">
+                                                <div class="page-header">
+                                                    <div class="css-i9gxme"></div>
+                                                    <div class="css-ddwxjb">
+                                                        <div class="css-r3yn49 download-btn"><i class="bi bi-download"
+                                                                style="font-size:1.2rem;"></i></div>
+                                                    </div>
+                                                </div>
+                                                <div class="page-body">
+                                                    <div class="css-lavxed">
+                                                        <canvas id="editorCanvas"></canvas>
+                                                    </div>
+                                                    <div class="page-body-abs-placeholder"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="css-1dsbg1u"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="toolbar-footer css-13v4gf0">
+                        <div class="toolbar-footer-inner-container">
+                            <div class="pageno-container"></div>
+                            <div class="zoom-slider-container">
+                                <div class="zoom-slider-area">
+                                    <input type="range" min="5" max="300" value="100" class="slider" id="sliderRange"
+                                        style="min-width:200px;">
+                                </div>
+                                <div class="zoom-value-container">
+                                    <div class="zoom-value">100%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script type="module" src="../js/fontfaceobserver.js"></script>
+    <script src="../js/fabric-history.js"></script>
+    <script src="../js/aligning_guidelines.js"></script>
+
+    <script type="module">
+        document.querySelector('.hide-collapsible-menu').onclick = function (e) {
+            document.querySelector('.collapsible-menu').classList.add('d-none');
+        }
+
+        document.querySelector('.template-btn').onclick = function (e) {
+            document.querySelectorAll('.collapsible-menu-body-items').forEach((elem) => {
+                elem.classList.add('d-none');
+            });
+            document.querySelector('.collapsible-menu-template-body').classList.remove('d-none');
+            document.querySelector('.collapsible-menu').classList.remove('d-none');
+            document.querySelector('.collapsible-menu-header-text').innerHTML = 'Templates';
+            document.querySelector('.collapsible-menu-template-body').innerHTML = 'templates';
+        }
+
+        document.querySelector('.text-btn').onclick = function (e) {
+            document.querySelectorAll('.collapsible-menu-body-items').forEach((elem) => {
+                elem.classList.add('d-none');
+            });
+            document.querySelector('.collapsible-menu-text-body').classList.remove('d-none');
+            document.querySelector('.collapsible-menu').classList.remove('d-none');
+            document.querySelector('.collapsible-menu-header-text').innerHTML = 'Text';
+        }
+
+        document.querySelector('.shape-btn').onclick = function (e) {
+            document.querySelectorAll('.collapsible-menu-body-items').forEach((elem) => {
+                elem.classList.add('d-none');
+            });
+            document.querySelector('.collapsible-menu-shape-body').classList.remove('d-none');
+            document.querySelector('.collapsible-menu').classList.remove('d-none');
+            document.querySelector('.collapsible-menu-header-text').innerHTML = 'Shapes';
+            document.querySelector('.collapsible-menu-shape-body').innerHTML = 'shapes';
+        }
+
+        document.querySelector('.image-btn').onclick = function (e) {
+            document.querySelectorAll('.collapsible-menu-body-items').forEach((elem) => {
+                elem.classList.add('d-none');
+            });
+            document.querySelector('.collapsible-menu-image-body').classList.remove('d-none');
+            document.querySelector('.collapsible-menu').classList.remove('d-none');
+            document.querySelector('.collapsible-menu-header-text').innerHTML = 'Images';
+            document.querySelector('.collapsible-menu-image-body').innerHTML = 'images';
+        }
+    </script>
+
+    <script type="module">
+        let ldeDocument = { width: 512, height: 512 };
+        let initialMargin = 130; // 2*56 + 28; 28 for vertical sroll width
+
+        document.addEventListener("DOMContentLoaded", (event) => {
+            console.log("offsetWidth:", document.querySelector('.css-zl9bor').offsetWidth);
+            let initialWidth = document.querySelector('.css-zl9bor').offsetWidth - initialMargin;
+            console.log("initialWidth", initialWidth);
+
+            let initialZoomfactor = parseInt(initialWidth / ldeDocument.width * 100)/100;
+            initialWidth = ldeDocument.width * initialZoomfactor;
+
+            document.querySelector('.page-header').style.width = initialWidth + 'px';
+
+            document.querySelector('.page-body').style.width = initialWidth + 'px';
+            document.querySelector('.page-body').style.height = initialWidth * (ldeDocument.height / ldeDocument.width) + 'px';
+
+            //document.querySelector('.add-page-btn').style.width = initialWidth + 'px';
+
+            var sliderRange = document.getElementById("sliderRange");
+            sliderRange.value = parseInt(initialWidth / ldeDocument.width * 100);
+            document.querySelector('.zoom-value').innerHTML = sliderRange.value + '%';
+            console.log(sliderRange.value)
+        })
+    </script>
+    <script type="module">
+        import editor from "./js/canva-editor.js";
+
+        window.onload = () => {
+            editor({
+                width: 512, //1640,
+                height: 512, //944,
+                header: true,
+                headerMenuItems: {
+                    import: true,
+                    export: true,
+                    close: false
+                }
+            })
+        };
+
+    </script>
+</body>
+
+</html>

@@ -1,79 +1,31 @@
-import initHeader from "./header.js"
-import { initToolbar } from "./toolbox.js"
-import initImage from "./image.js"
-import initShapes from "./shapes.js"
-import initText from "./text.js"
+import initHeader from "./canva-header.js"
+import { initToolbar } from "./canva-toolbox.js"
+//import initImage from "./image.js"
+//import initShapes from "./shapes.js"
+import initText from "./canva-text.js"
 import addResizeDialog from "./resize-dialog.js"
-import configCanvas, { renderFabricJson } from "./canvas-init.js"
-import { bgGradients } from "./gradients.js"
-import { templates } from "../templates/templates.js"
-export default function editor(containerId, config, callback) {
+import configCanvas, { renderFabricJson } from "./canva-canvas.js"
+//import { bgGradients } from "./gradients.js"
+//import { templates } from "../templates/templates.js"
 
-    let container = document.getElementById(containerId);
-    container.classList.add('editor');
-    container.innerHTML =
-        '<div id="header"></div>'
-        +   `<div class="toolboxContainer">
-                <!--div style="font-size:12px; color:blue; text-align:center; padding-bottom:2px;"><b>New!</b> UI updates</div-->
-                <div class="toolbox toolbar-1"></div>
-                <div class="toolbox toolbar-2"></div>
-            </div>`
-
-        + '<div class="one-more-bar">'
-        + '<div id="sizeDisplay" style="float:left; padding: 2px 4px; color: #666; font-size: 13px; background-color: #ddd;"></div>'
-        + '<div id="resize-btn" style="float:left; padding: 2px 8px; color: #444; font-size: 14px; cursor: pointer;">Resize</div>'
-        + `
-        <div class="zoom-value-container">
-        <div class="zoom-value">100%</div>
-        </div>
-        `        
-        + '<div class="sliderContainer" style="float:right;">'       
-        + '<input type="range" min="5" max="100" value="100" class="slider" id="sliderRange">'
-        + '</div>'
-
-        + '</div>'
-        + '<div style="clear:both;"></div>'
-
-        + '<div class="grid-container">'
-        + '<div class="main-content_large">'
-        + '<div class="canvasContainer">'
-        + '<div class="canvasWrapper"><canvas id="editorCanvas"></canvas></div></div>'
-        + '</div>'
-        + '<div class="sidebar_small">'
-        + '<div style="min-height:40px;" class="collapse-button-container"><button class="collapse-button">X</button></div>'
-        + '<div id="sidebar-content"><div id="template-content"></div><div id="bg-content"></div></div>'
-        + '</div>'
-
-        + '</div>';
-
-    // https://codepen.io/DeolaJ/pen/xvjbKY
-    const sidebar = document.querySelector('.sidebar_small');
-    const mainContent = document.querySelector('.main-content_large');
-    document.querySelector('.collapse-button').onclick = function (e) {
-        sidebar.classList.remove('sidebar');
-        e.target.style.display = 'none';
-        mainContent.classList.remove('main-content');
-        sidebar.classList.add('sidebar_small');
-        mainContent.classList.add('main-content_large');
-    }
-
-
+export default function editor(config, callback) {
     initHeader(config);
-    let canvas = new fabric.Canvas("editorCanvas", { preserveObjectStacking: true, backgroundColor: "#fff" });
+    let canvas = new fabric.Canvas("editorCanvas", { preserveObjectStacking: true, backgroundColor: "#fff" });  
     fabric.Object.prototype.transparentCorners = false;
     fabric.Object.prototype.borderColor = 'blue';
     fabric.Object.prototype.cornerColor = 'white';
     fabric.Object.prototype.cornerStrokeColor = 'darkgray';
     fabric.Object.prototype.cornerStyle = 'circle';
     fabric.Object.prototype.cornerSize = 10;
-    initToolbar(canvas);
-    configCanvas(canvas, container, config, callback);
-    initImage(canvas);
-    initShapes(canvas);
+    initToolbar();
+    configCanvas(canvas, config, callback);
+    //initImage(canvas);
+    //initShapes(canvas);
     initText(canvas);
-    addResizeDialog(canvas);
+    //addResizeDialog(canvas);
 
     document.querySelector('#canvas-bgcolor-btn').onclick = function () {
+        /*
         sidebar.classList.add('sidebar');
         document.querySelector('.collapse-button').style.display = 'block';
         mainContent.classList.add('main-content');
@@ -113,8 +65,11 @@ export default function editor(containerId, config, callback) {
                 }
             }
         }
+        */
     }
+
     document.querySelector('.template-btn').onclick = function () {
+        /*
         sidebar.classList.add('sidebar');
         document.querySelector('.collapse-button').style.display = 'block';
         mainContent.classList.add('main-content');
@@ -155,5 +110,6 @@ export default function editor(containerId, config, callback) {
                 }
             }
         }
+        */
     }
 }
