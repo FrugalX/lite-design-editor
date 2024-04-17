@@ -70,14 +70,10 @@
 }
 
 .menuitem-top {
-    border-bottom-right-radius: 0px;
-    border-top-right-radius: 8px;
     position: relative;
     display: flex;
     flex-direction: column;
-    -webkit-box-pack: center;
     justify-content: center;
-    -webkit-box-align: center;
     align-items: center;
     padding: 0px 2px;
     width: 48px;

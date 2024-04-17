@@ -21,6 +21,11 @@
             font-size: 14px;
         }
 
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
         *,
         ::before,
         ::after {
@@ -32,7 +37,7 @@
         }
 
         .d-none {
-            display: none;
+            display: none !important;
         }
 
         .app-container {
@@ -577,7 +582,7 @@
             display: inline-flex;
             padding: 2px;
             margin-top: 6px;
-            margin-bottom:3px;
+            margin-bottom: 3px;
         }
 
         .number-input,
@@ -697,12 +702,12 @@
                     <div class="toolbar-header css-ud5r2z">
                         <div class="css-4ns52">
                             <div class="css-19fugzd">
-                                <div class="widget-group">
+                                <!--div class="widget-group">
                                     <span class="tool-item undo" title="Undo"><i
                                             class="bi-arrow-counterclockwise"></i></span>
                                     <span class="tool-item redo" title="Redo"><i class="bi-arrow-clockwise"></i></span>
-                                </div>
-                                <div class="widget-group entity-tools text-tools">
+                                </div-->
+                                <div class="widget-group entity-tools text-tools d-none">
                                     <span class="tool-item">
                                         <select name="font-family" class="font-family" id="font-family">
                                             <option value="Arial" , style="font-family: Arial;">Arial</option>
@@ -718,8 +723,7 @@
                                         </select></span>
                                 </div>
 
-                                <div class="widget-group entity-tools text-tools" style="padding-top:0;">
-
+                                <div class="widget-group entity-tools text-tools d-none" style="padding-top:0;">
                                     <div class="number-input" title="Font size">
                                         <button class="dec-fontsize"></button>
                                         <input class="font-size" min="0" name="font-size" value="28" type="number">
@@ -727,8 +731,7 @@
                                     </div>
                                 </div>
 
-                                <div class="widget-group entity-tools text-tools" style="padding-top:0;">
-
+                                <div class="widget-group entity-tools text-tools d-none" style="padding-top:0;">
                                     <div class="number-input" title="Char spacing">
                                         <button class="dec-charspace"></button>
                                         <input class="charspace" min="-500" max="500" step="50" name="charspace"
@@ -737,13 +740,13 @@
                                     </div>
                                 </div>
 
-                                <div class="widget-group entity-tools text-tools">
+                                <div class="widget-group entity-tools text-tools d-none">
                                     <span class="tool-item bold-text"><i class="bi-type-bold"></i></span>
                                     <span class="tool-item underline-text"><i class="bi-type-underline"></i></span>
                                     <span class="tool-item italic-text"><i class="bi-type-italic"></i></span>
                                 </div>
 
-                                <div class="widget-group entity-tools text-tools">
+                                <div class="widget-group entity-tools text-tools d-none">
                                     <span id="text-color-btn" class="tool-item"
                                         style="border-bottom:3px solid red; padding-bottom:0;"><i class="bi-fonts"
                                             title="Text Color"></i></span>
@@ -752,14 +755,14 @@
                                         title="Text Background Color"><i class="bi-paint-bucket"></i></span>
                                 </div>
 
-                                <div class="widget-group entity-tools text-tools">
+                                <div class="widget-group entity-tools text-tools d-none">
                                     <span class="tool-item left-align"><i class="bi-text-left"></i></span>
                                     <span class="tool-item center-align"><i class="bi-text-center"></i></span>
                                     <span class="tool-item right-align"><i class="bi-text-right"></i></span>
                                     <span class="tool-item justify-align"><i class="bi-justify"></i></span>
                                 </div>
 
-                                <div class="widget-group entity-tools shape-tools">
+                                <div class="widget-group entity-tools shape-tools d-none">
                                     <span class="tool-item rect-btn" title="Add Rectangle"><i
                                             class="bi-square"></i></span>
                                     <span class="tool-item circle-btn" title="Add Circle"><i
@@ -771,7 +774,7 @@
                                     <span class="tool-item line-btn" title="Add Line"><i class="bi-slash-lg"></i></span>
                                 </div>
 
-                                <div class="widget-group entity-tools shape-tools" style="display: none;">
+                                <div class="widget-group entity-tools shape-tools d-none">
                                     <span id="shape-color-btn" class="tool-item"
                                         style="border-bottom:3px solid crimson; padding-bottom:0;"><i
                                             class="bi-gem"></i></span>
@@ -800,7 +803,7 @@
                                     </span>
                                 </div>
 
-                                <div class="widget-group entity-tools image-tools" style="display: none;">
+                                <div class="widget-group entity-tools image-tools d-none">
                                     <div style="float:left;">
                                         <input type="file" id="img-replace" class="img-replace" hidden
                                             accept="image/*" /><label for="img-replace">
@@ -825,21 +828,41 @@
                                     </div>
                                 </div>
 
-                                <div class="widget-group change-layer-btns" style="display: none;">
-                                    <span class="pushbackward-btn tool-item" title="Push backward"><i
-                                            class="bi-arrow-down"></i></span>
-                                    <span class="pullforward-btn tool-item" title="Pull forward"><i
-                                            class="bi-arrow-up"></i></span>
-                                    <span class="sendback-btn tool-item" title="Send back"><i
-                                            class="fa-solid bi-chevron-double-down"></i></span>
-                                    <span class="bringtofront-btn tool-item" title="Bring to front"><i
-                                            class="bi-chevron-double-up"></i></span>
+                                <div class="widget-group align-btns d-none">
+                                    <span class="tool-item align-left-btn" style="font-size:1rem; color:#666;">
+                                        <i class="bi bi-align-start"></i>
+                                    </span>
+                                    <span class="tool-item align-right-btn" style="font-size:1rem; color:#666;">
+                                        <i class="bi bi-align-end"></i>
+                                    </span>
+                                    <span class="tool-item align-center-btn" style="font-size:1rem; color:#666;">
+                                        <i class="bi bi-align-center"></i>
+                                    </span>
+                                    <span class="tool-item align-top-btn" style="font-size:1rem; color:#666;">
+                                        <i class="bi bi-align-top"></i>
+                                    </span>
+                                    <span class="tool-item align-bottom-btn" style="font-size:1rem; color:#666;">
+                                        <i class="bi bi-align-bottom"></i>
+                                    </span>
+                                    <span class="tool-item align-middle-btn" style="font-size:1rem; color:#666;">
+                                        <i class="bi bi-align-middle"></i>
+                                    </span>
                                 </div>
 
-                                <div class="widget-group">
+                                <div class="widget-group change-layer-btns d-none">
+                                    <span class="pushbackward-btn tool-item" title="Push backward" style="font-size:1rem;"><i
+                                            class="bi-arrow-down"></i></span>
+                                    <span class="pullforward-btn tool-item" title="Pull forward" style="font-size:1rem;"><i
+                                            class="bi-arrow-up"></i></span>
+                                    <span class="sendback-btn tool-item" title="Send back" style="font-size:1rem;"><i
+                                            class="fa-solid bi-chevron-double-down"></i></span>
+                                    <span class="bringtofront-btn tool-item" title="Bring to front" style="font-size:1rem;"><i
+                                            class="bi-chevron-double-up"></i></span>
+                                </div>
+                                <!--div class="widget-group">
                                     <span class="clone-btn tool-item" title="Copy"><i class="bi-copy"></i></span>
                                     <span class="trash-btn tool-item"><i class="bi-trash"></i></span>
-                                </div>
+                                </div-->
                             </div>
                         </div>
                     </div>
@@ -851,10 +874,26 @@
                                         <div class="css-bx7rw6">
                                             <div class="css-1979fae">
                                                 <div class="page-header">
+                                                    <div class="css-ddwxjb">
+                                                        <div class="css-r3yn49 undo" style="width:20px;">
+                                                            <i class="bi bi-arrow-counterclockwise" style="font-size:1.0rem;"></i>
+                                                        </div>
+                                                        <div class="css-r3yn49 redo" style="margin-left:0px; width:20px;">
+                                                            <i class="bi bi-arrow-clockwise" style="font-size:1.0rem;"></i>
+                                                        </div>
+                                                    </div>
                                                     <div class="css-i9gxme"></div>
                                                     <div class="css-ddwxjb">
-                                                        <div class="css-r3yn49 download-btn"><i class="bi bi-download"
-                                                                style="font-size:1.2rem;"></i></div>
+                                                        <div class="css-r3yn49 download-btn">
+                                                            <i class="bi bi-download" style="font-size:1.0rem;"></i>
+                                                        </div>
+
+                                                        <div class="css-r3yn49 clone-btn">
+                                                            <i class="bi bi-copy" style="font-size:1.0rem;"></i>
+                                                        </div>
+                                                        <div class="css-r3yn49 trash-btn">
+                                                            <i class="bi bi-trash" style="font-size:1.0rem;"></i>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="page-body">
@@ -951,7 +990,7 @@
             let initialWidth = document.querySelector('.css-zl9bor').offsetWidth - initialMargin;
             console.log("initialWidth", initialWidth);
 
-            let initialZoomfactor = parseInt(initialWidth / ldeDocument.width * 100)/100;
+            let initialZoomfactor = parseInt(initialWidth / ldeDocument.width * 100) / 100;
             initialWidth = ldeDocument.width * initialZoomfactor;
 
             document.querySelector('.page-header').style.width = initialWidth + 'px';

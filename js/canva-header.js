@@ -4,7 +4,7 @@ export default function initHeader(config) {
         header.style.display = "none";
     }
     else {
-        let headerTitle = '<div id="headerTitle"><b>Lite</b> Design Editor</div>';
+        let headerTitle = '<div id="headerTitle"><a href="/"><b>Lite</b> Design Editor</a></div>';
         let headerMenu = '<div class="headerMenu">'
             + '<div id="export-btn" class="headerMenuItem"><span title="Export Json">Export</span></div>'
             + '<div id="import-btn" class="headerMenuItem"><input type="file" id="jsonInput" accept=".json,.tpl"><label for="jsonInput"><span style="cursor:pointer;" title="Import Json">Import</span></label></div>'

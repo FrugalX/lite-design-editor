@@ -53,10 +53,10 @@ export function updateToolbarOnElementSelect(e, canvas) {
             el.classList.remove('d-none');
         });
     }
-    let trashBtn = document.getElementsByClassName("trash-btn")[0];
-    trashBtn.parentNode.classList.remove('d-none');
     let changelayerBtn = document.getElementsByClassName("change-layer-btns")[0];
     changelayerBtn.classList.remove('d-none');
+    let alignBtn = document.getElementsByClassName("align-btns")[0];
+    alignBtn.classList.remove('d-none');
 
     initCommonBtns(canvas);
 }
@@ -65,10 +65,10 @@ export function onElementDeselect(e) {
     document.querySelectorAll('.entity-tools').forEach(function (el) {
         el.classList.add('d-none');
     });
-    let trashBtn = document.getElementsByClassName("trash-btn")[0];
-    trashBtn.parentNode.classList.add('d-none');
     let changelayerBtn = document.getElementsByClassName("change-layer-btns")[0];
     changelayerBtn.classList.add('d-none');
+    let alignBtn = document.getElementsByClassName("align-btns")[0];
+    alignBtn.classList.add('d-none');
 }
 
 function initCommonBtns(canvas) {
@@ -80,6 +80,84 @@ function initCommonBtns(canvas) {
     let redoBtn = document.getElementsByClassName("redo")[0];
     redoBtn.onclick = function () {
         canvas.redo();
+    }
+
+    let leftalignBtn = document.getElementsByClassName("align-left-btn")[0];
+    leftalignBtn.onclick = function () {
+        if (canvas.getActiveObject()) {
+            let box = canvas.getActiveObject().getBoundingRect();
+            let zoom = canvas.getZoom();
+            if (canvas.getActiveObject().get('originX') === 'center')
+                canvas.getActiveObject().set('left', 0.5 * box.width / zoom);
+            else if (canvas.getActiveObject().get('originX') === 'left')
+                canvas.getActiveObject().set('left', 0);
+            canvas.renderAll();
+        }
+    }
+
+    let rightalignBtn = document.getElementsByClassName("align-right-btn")[0];
+    rightalignBtn.onclick = function () {
+        if (canvas.getActiveObject()) {
+            let box = canvas.getActiveObject().getBoundingRect();
+            let zoom = canvas.getZoom();
+            if (canvas.getActiveObject().get('originX') === 'center')
+                canvas.getActiveObject().set('left', (canvas.getWidth() - 0.5 * box.width) / zoom);
+            else if (canvas.getActiveObject().get('originX') === 'left')
+                canvas.getActiveObject().set('left', (canvas.getWidth() - box.width) / zoom);
+            canvas.renderAll();
+        }
+    }
+
+    let centeralignBtn = document.getElementsByClassName("align-center-btn")[0];
+    centeralignBtn.onclick = function () {
+        if (canvas.getActiveObject()) {
+            let box = canvas.getActiveObject().getBoundingRect();
+            let zoom = canvas.getZoom();
+            if (canvas.getActiveObject().get('originX') === 'center')
+                canvas.getActiveObject().set('left', (canvas.getWidth() * 0.5) / zoom);
+            else if (canvas.getActiveObject().get('originX') === 'left')
+                canvas.getActiveObject().set('left', (0.5 * canvas.getWidth() - 0.5 * box.width) / zoom);
+            canvas.renderAll();
+        }
+    }
+
+    let topalignBtn = document.getElementsByClassName("align-top-btn")[0];
+    topalignBtn.onclick = function () {
+        if (canvas.getActiveObject()) {
+            let box = canvas.getActiveObject().getBoundingRect();
+            let zoom = canvas.getZoom();
+            if (canvas.getActiveObject().get('originY') === 'center')
+                canvas.getActiveObject().set('top', 0.5 * box.height / zoom);
+            else if (canvas.getActiveObject().get('originY') === 'top')
+                canvas.getActiveObject().set('top', 0);
+            canvas.renderAll();
+        }
+    }
+
+    let bottomalignBtn = document.getElementsByClassName("align-bottom-btn")[0];
+    bottomalignBtn.onclick = function () {
+        if (canvas.getActiveObject()) {
+            let box = canvas.getActiveObject().getBoundingRect();
+            let zoom = canvas.getZoom();
+            if (canvas.getActiveObject().get('originY') === 'center')
+                canvas.getActiveObject().set('top', (canvas.getHeight() - 0.5 * box.height) / zoom);
+            else if (canvas.getActiveObject().get('originY') === 'top')
+                canvas.getActiveObject().set('top', (canvas.getHeight() - box.height) / zoom);
+            canvas.renderAll();
+        }
+    }
+
+    let middlealignBtn = document.getElementsByClassName("align-middle-btn")[0];
+    middlealignBtn.onclick = function () {
+        if (canvas.getActiveObject()) {
+            let box = canvas.getActiveObject().getBoundingRect();
+            let zoom = canvas.getZoom();
+            if (canvas.getActiveObject().get('originY') === 'center')
+                canvas.getActiveObject().set('top', (canvas.getHeight() * 0.5) / zoom);
+            else if (canvas.getActiveObject().get('originY') === 'top')
+                canvas.getActiveObject().set('top', (0.5 * canvas.getHeight() - 0.5 * box.height) / zoom);
+            canvas.renderAll();
+        }
     }
 
     let pushbackwardBtn = document.getElementsByClassName("pushbackward-btn")[0];
