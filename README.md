@@ -1,6 +1,6 @@
 # Lite Design Editor
 
-Lite Design Editor is a lightweight, web-based graphics design editor built with JavaScript and fabric.js. It currently supports text, images and shapes (rectangles & circles), with plans to add more shapes in the future. The editor allows import of fabric.js JSON files and offers a minimalist user interface focused on functional support over elegant aesthetics.
+Lite Design Editor is a lightweight, web-based graphics design editor built with JavaScript and fabric.js. It currently supports text, images and shapes. The editor allows import of fabric.js JSON files and offers a minimalist user interface focused on functional support over elegant aesthetics.
 
 *Please Note: This project is experimental and should be used with caution. It is advised to consider Lite Design Editor as sample code for exploratory purposes. If you intend to develop a professional graphics design editor based on this repository, please use it as a reference and adapt it to your specific needs with thorough testing and validation.*
 
@@ -13,7 +13,7 @@ Lite Design Editor is a lightweight, web-based graphics design editor built with
 
 ## Fonts
 
-By default, only fonts supported by browsers are available in Lite Design Editor. However, the editor also provides limited support for custom fonts. When importing a JSON file, the editor parses it to identify custom fonts, and the required Google Fonts are dynamically loaded and added to the dropdown menu for font family selection.
+By default, only fonts supported by browsers are available in Lite Design Editor. However, the editor also provides limited support for Google fonts. When importing a JSON file, the editor parses it to identify custom fonts, and the required Google Fonts are dynamically loaded and added to the dropdown menu for font family selection.
 
 ## Getting Started
 
@@ -22,7 +22,7 @@ To get started with Lite Design Editor, follow these steps:
 1. Clone the repository to your local machine using Git:
 
 ```bash
-git clone https://github.com/your-username/lite-design-editor.git
+git clone https://github.com/FrugalX/lite-design-editor.git
 ```
 
 2. Open the cloned repository in your preferred code editor. For example, you can open it using Visual Studio Code.
@@ -35,7 +35,7 @@ That's it! You're now ready to start using Lite Design Editor.
 
 ## Usage
 
-- **Adding Shapes:** Click on the rectangle tool from the toolbar to add it.
+- **Adding Shapes:** Click on the Diamond tool from the toolbar to add it.
 - **Editing Shapes:** Select a shape on the canvas to reveal editing options such as resizing, rotating, and styling.
 - **Text Editing:** Click on the text tool from the toolbar to add text. Double click on the text to edit it.
 - **Image Editing:** Click on the image tool from the toolbar to add image. Double click on the image to edit it.

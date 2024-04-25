@@ -1,3 +1,4 @@
+import { updateOutOfCanvasView } from './canvas-init.js'
 export let canvasbgColorWidget, shapeColorWidget, shapefillColorWidget, textColorWidget, textbgColorWidget;
 
 export function initToolbar(canvas) {
@@ -35,7 +36,7 @@ export function initToolbar(canvas) {
         + '<div class="widget-group">'
         + '<span class="tool-item undo" title="Undo"><i class="bi-arrow-counterclockwise"></i></span><span class="tool-item redo" title="Redo"><i class="bi-arrow-clockwise"></i></span>'
         + '</div>'
-+ '<div class="separator redo-undo-separator"></div>'
+        + '<div class="separator redo-undo-separator"></div>'
         + '<div class="widget-group entity-tools text-tools">'
         + '<span class="tool-item" style="margin-top:-8px;">'
         + '<select name="font-family" class="font-family" id="font-family">'
@@ -91,6 +92,8 @@ export function initToolbar(canvas) {
         + '<span class="tool-item hexagon-btn" title="Add Hexagon"><i class="bi-hexagon"></i></span>'
         + '<span class="tool-item triangle-btn" title="Add Triangle"><i class="bi-triangle"></i></span>'
         + '<span class="tool-item line-btn" title="Add Line"><i class="bi-slash-lg"></i></span>'
+        + '<span class="tool-item horz-line-btn" title="Add Horizontal Line"><i class="bi-dash-lg"></i></span>'
+        + '<span class="tool-item vert-line-btn" title="Add Vertical Line" style="transform:rotate(90deg);" ><i class="bi-dash-lg"></i></span>'
         + '</div>'
         + '<div class="separator entity-tools shape-tools"></div>'
         + '<div class="widget-group entity-tools shape-tools" style="display: none;">'
@@ -139,26 +142,26 @@ export function initToolbar(canvas) {
 
         + `
         <div class="widget-group align-btns d-none">
-            <span class="tool-item align-left-btn" style="font-size:1rem; color:#666;">
+            <span class="tool-item align-left-btn" title="Left align" style="font-size:1rem; color:#666;">
                 <i class="bi bi-align-start"></i>
             </span>
-            <span class="tool-item align-right-btn" style="font-size:1rem; color:#666;">
+            <span class="tool-item align-right-btn" title="Right align" style="font-size:1rem; color:#666;">
                 <i class="bi bi-align-end"></i>
             </span>
-            <span class="tool-item align-center-btn" style="font-size:1rem; color:#666;">
+            <span class="tool-item align-center-btn" title="Horizontal center align" style="font-size:1rem; color:#666;">
                 <i class="bi bi-align-center"></i>
             </span>
-            <span class="tool-item align-top-btn" style="font-size:1rem; color:#666;">
+            <span class="tool-item align-top-btn" title="Top align" style="font-size:1rem; color:#666;">
                 <i class="bi bi-align-top"></i>
             </span>
-            <span class="tool-item align-bottom-btn" style="font-size:1rem; color:#666;">
+            <span class="tool-item align-bottom-btn" title="Bottom align" style="font-size:1rem; color:#666;">
                 <i class="bi bi-align-bottom"></i>
             </span>
-            <span class="tool-item align-middle-btn" style="font-size:1rem; color:#666;">
+            <span class="tool-item align-middle-btn" title="Vertical center align" style="font-size:1rem; color:#666;">
                 <i class="bi bi-align-middle"></i>
             </span>
         </div>
-        `        
+        `
         + '<div class="separator change-layers-separator"></div>'
         + '<div class="widget-group change-layer-btns">'
         + '<span class="pushbackward-btn tool-item" title="Push backward"><i class="bi-arrow-down"></i></span>'
@@ -240,21 +243,6 @@ export function updateToolbarOnElementSelect(e, canvas) {
     initCommonBtns(canvas);
 }
 
-export function onElementDeselect(e) {
-    document.querySelectorAll('.entity-tools').forEach(function (el) {
-        el.style.display = 'none';
-    });
-    document.querySelector('.change-layers-separator').style.display = 'none';
-    document.querySelector('.clone-trash-tools-separator').style.display = 'none';
-    document.querySelector('.redo-undo-separator').style.display = 'none';
-    let trashBtn = document.getElementsByClassName("trash-btn")[0];
-    trashBtn.parentNode.style.display = 'none';
-    let changelayerBtn = document.getElementsByClassName("change-layer-btns")[0];
-    changelayerBtn.style.display = 'none';
-    let alignBtn = document.getElementsByClassName("align-btns")[0];
-    alignBtn.style.display = 'none';
-}
-
 function initCommonBtns(canvas) {
     let undoBtn = document.getElementsByClassName("undo")[0];
     undoBtn.onclick = function () {
@@ -275,6 +263,7 @@ function initCommonBtns(canvas) {
                 canvas.getActiveObject().set('left', 0.5 * box.width / zoom);
             else if (canvas.getActiveObject().get('originX') === 'left')
                 canvas.getActiveObject().set('left', 0);
+            updateOutOfCanvasView(canvas);
             canvas.renderAll();
         }
     }
@@ -288,6 +277,7 @@ function initCommonBtns(canvas) {
                 canvas.getActiveObject().set('left', (canvas.getWidth() - 0.5 * box.width) / zoom);
             else if (canvas.getActiveObject().get('originX') === 'left')
                 canvas.getActiveObject().set('left', (canvas.getWidth() - box.width) / zoom);
+            updateOutOfCanvasView(canvas);
             canvas.renderAll();
         }
     }
@@ -301,6 +291,7 @@ function initCommonBtns(canvas) {
                 canvas.getActiveObject().set('left', (canvas.getWidth() * 0.5) / zoom);
             else if (canvas.getActiveObject().get('originX') === 'left')
                 canvas.getActiveObject().set('left', (0.5 * canvas.getWidth() - 0.5 * box.width) / zoom);
+            updateOutOfCanvasView(canvas);
             canvas.renderAll();
         }
     }
@@ -314,6 +305,7 @@ function initCommonBtns(canvas) {
                 canvas.getActiveObject().set('top', 0.5 * box.height / zoom);
             else if (canvas.getActiveObject().get('originY') === 'top')
                 canvas.getActiveObject().set('top', 0);
+            updateOutOfCanvasView(canvas);
             canvas.renderAll();
         }
     }
@@ -327,6 +319,7 @@ function initCommonBtns(canvas) {
                 canvas.getActiveObject().set('top', (canvas.getHeight() - 0.5 * box.height) / zoom);
             else if (canvas.getActiveObject().get('originY') === 'top')
                 canvas.getActiveObject().set('top', (canvas.getHeight() - box.height) / zoom);
+            updateOutOfCanvasView(canvas);
             canvas.renderAll();
         }
     }
@@ -340,6 +333,7 @@ function initCommonBtns(canvas) {
                 canvas.getActiveObject().set('top', (canvas.getHeight() * 0.5) / zoom);
             else if (canvas.getActiveObject().get('originY') === 'top')
                 canvas.getActiveObject().set('top', (0.5 * canvas.getHeight() - 0.5 * box.height) / zoom);
+            updateOutOfCanvasView(canvas);
             canvas.renderAll();
         }
     }
@@ -385,6 +379,7 @@ function initCommonBtns(canvas) {
                     obj.get('clippedObj').set({ clipPath: '' });
                 canvas.remove(obj);
             }
+            updateOutOfCanvasView(canvas);
             canvas.renderAll();
         }
     }
@@ -414,6 +409,7 @@ function initCommonBtns(canvas) {
                 if (obj.get('clippedObj') !== undefined)
                     obj.get('clippedObj').set({ clipPath: '' });
                 canvas.remove(obj);
+                updateOutOfCanvasView(canvas);
             }
         }
 

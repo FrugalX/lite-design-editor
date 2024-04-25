@@ -1,6 +1,8 @@
 import { shapeColorWidget, shapefillColorWidget } from "./toolbox.js"
 import { ldeDocument } from "./canvas-init.js";
 
+let rectScaling = false;
+
 export default function initShapes(canvas) {
     let addShapes = document.getElementsByClassName("shapes-btn")[0];
     addShapes.onclick = function () {
@@ -30,12 +32,18 @@ export default function initShapes(canvas) {
             stroke: document.getElementById("shape-color-btn").style.borderBottomColor
         });
         rect.on('scaling', function () {
-            this.set({
-                width: this.width * this.scaleX,
-                height: this.height * this.scaleY,
-                scaleX: 1,
-                scaleY: 1
-            })
+            rectScaling = true;
+        })
+        rect.on('mouseup', function () {
+            if (rectScaling === true) {
+                rectScaling = false;
+                this.set({
+                    width: this.width * this.scaleX,
+                    height: this.height * this.scaleY,
+                    scaleX: 1,
+                    scaleY: 1
+                })
+            }
         })
 
         canvas.add(rect);
@@ -121,7 +129,7 @@ export default function initShapes(canvas) {
 
     let addLine = document.getElementsByClassName("line-btn")[0];
     addLine.onclick = function () {
-        let line = new fabric.Line([ldeDocument.width*0.3, ldeDocument.height*0.7, ldeDocument.width*0.7, ldeDocument.height*0.3],
+        let line = new fabric.Line([ldeDocument.width * 0.3, ldeDocument.height * 0.7, ldeDocument.width * 0.7, ldeDocument.height * 0.3],
             {
                 originX: "center",
                 originY: "center",
@@ -129,6 +137,54 @@ export default function initShapes(canvas) {
                 fill: document.getElementById("shape-fillcolor-btn").style.borderBottomColor,
                 stroke: document.getElementById("shape-color-btn").style.borderBottomColor
             });
+        canvas.add(line);
+        canvas.setActiveObject(line);
+        canvas.renderAll();
+    }
+
+    let addHorzLine = document.getElementsByClassName("horz-line-btn")[0];
+    addHorzLine.onclick = function () {
+        let line = new fabric.Line([ldeDocument.width * 0.3, ldeDocument.height * 0.5, ldeDocument.width * 0.7, ldeDocument.height * 0.5],
+            {
+                originX: "center",
+                originY: "center",
+                strokeWidth: 1,
+                fill: document.getElementById("shape-fillcolor-btn").style.borderBottomColor,
+                stroke: document.getElementById("shape-color-btn").style.borderBottomColor
+            });
+        line.setControlsVisibility({
+            bl: false,
+            br: false,
+            mb: false,
+            mt: false,
+            tl: false,
+            tr: false,
+            mtr: false
+        });
+        canvas.add(line);
+        canvas.setActiveObject(line);
+        canvas.renderAll();
+    }
+
+    let addVertLine = document.getElementsByClassName("vert-line-btn")[0];
+    addVertLine.onclick = function () {
+        let line = new fabric.Line([ldeDocument.width * 0.5, ldeDocument.height * 0.3, ldeDocument.width * 0.5, ldeDocument.height * 0.7],
+            {
+                originX: "center",
+                originY: "center",
+                strokeWidth: 1,
+                fill: document.getElementById("shape-fillcolor-btn").style.borderBottomColor,
+                stroke: document.getElementById("shape-color-btn").style.borderBottomColor
+            });
+        line.setControlsVisibility({
+            bl: false,
+            br: false,
+            ml: false,
+            mr: false,
+            tl: false,
+            tr: false,
+            mtr: false
+        });
         canvas.add(line);
         canvas.setActiveObject(line);
         canvas.renderAll();

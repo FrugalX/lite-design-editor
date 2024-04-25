@@ -1,6 +1,8 @@
-/canva.html
-/js/canva-canvas.js
-/js/canvas-editor.js
-/js/canva-header.js
-/js/canva-text.js
-/js/canva-toolbox.js
+/pop.html
+/js/pop-canvas.js
+/js/pop-editor.js
+/js/pop-header.js
+/js/pop-text.js
+/js/pop-toolbox.js
+/js/pop-image.js
+/js/pop-shapes.js

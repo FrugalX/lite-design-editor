@@ -37,8 +37,11 @@ export default function editor(containerId, config, callback) {
         + '<div class="grid-container">'
         + '<div class="main-content_large">'
         + '<div class="canvasContainer">'
-        + '<div class="canvasWrapper"><canvas id="editorCanvas"></canvas></div></div>'
-        + '</div>'
+        +   `<div class="canvasWrapper">
+                <canvas id="editorCanvas"></canvas>
+                <div class="bbProxy"></div>
+            </div>`
+        + '</div></div>'
         + '<div class="sidebar_small">'
         + '<div style="min-height:40px;" class="collapse-button-container"><button class="collapse-button">X</button></div>'
         + '<div id="sidebar-content"><div id="template-content"></div><div id="bg-content"></div></div>'

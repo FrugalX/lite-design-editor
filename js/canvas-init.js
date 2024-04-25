@@ -1,5 +1,5 @@
 
-import { updateToolbarOnElementSelect, onElementDeselect, canvasbgColorWidget } from "./toolbox.js"
+import { updateToolbarOnElementSelect, canvasbgColorWidget } from "./toolbox.js"
 
 var fontList = [
     "Arial",
@@ -91,7 +91,7 @@ export async function renderFabricJson(canvas, json) {
     let initialMargin = 130; // 2*56 + 28; 28 for vertical sroll width
     canvas.clear();
     ldeDocument.height = json.height;
-    ldeDocument.width = json.width;    
+    ldeDocument.width = json.width;
     let initialWidth = document.querySelector('.canvasContainer').offsetWidth - initialMargin;
     let initialZoomfactor = parseInt(initialWidth / ldeDocument.width * 100) / 100;
     if (initialZoomfactor > 1) initialZoomfactor = 1;
@@ -102,7 +102,7 @@ export async function renderFabricJson(canvas, json) {
     addSnapLines(canvas);
 
     var sliderRange = document.getElementById("sliderRange");
-    sliderRange.value = initialZoomfactor*100;
+    sliderRange.value = initialZoomfactor * 100;
     document.querySelector('.zoom-value').innerHTML = sliderRange.value + '%';
     await loadJsonFonts(json);
     canvas.loadFromJSON(json, function () {
@@ -113,6 +113,30 @@ export async function renderFabricJson(canvas, json) {
         }
         canvas.renderAll();
     });
+}
+
+export function updateOutOfCanvasView(canvas) {
+    if (canvas.getActiveObject()) {
+        const zoom = canvas.getZoom();
+        if (canvas.getActiveObject().originX === 'center') {
+            document.querySelector('.bbProxy').style.top = -1 + zoom * canvas.getActiveObject().top - (zoom * canvas.getActiveObject().height * canvas.getActiveObject().scaleY) / 2 + 'px';
+            document.querySelector('.bbProxy').style.left = -1 + zoom * canvas.getActiveObject().left - (zoom * canvas.getActiveObject().width * canvas.getActiveObject().scaleX) / 2 + 'px';
+        }
+        else { // origin at left, top
+            document.querySelector('.bbProxy').style.top = canvas.getActiveObject().top + 'px';
+            document.querySelector('.bbProxy').style.left = canvas.getActiveObject().left + 'px';
+        }
+        document.querySelector('.bbProxy').style.width = zoom * canvas.getActiveObject().width * canvas.getActiveObject().scaleX + 'px';
+        document.querySelector('.bbProxy').style.height = zoom * canvas.getActiveObject().height * canvas.getActiveObject().scaleY + 'px';
+        document.querySelector('.bbProxy').style.transform = 'rotate(' + canvas.getActiveObject().get('angle') + 'deg)';
+    }
+    else {
+        document.querySelector('.bbProxy').style.top = '0px';
+        document.querySelector('.bbProxy').style.left = '0px';
+        document.querySelector('.bbProxy').style.width = '0px';
+        document.querySelector('.bbProxy').style.height = '0px';
+        document.querySelector('.bbProxy').style.transform = 'rotate(0deg)';
+    }
 }
 
 export default function configCanvas(canvas, container, config, callback) {
@@ -136,24 +160,55 @@ export default function configCanvas(canvas, container, config, callback) {
     sizeDisplay.innerHTML = ldeDocument.width + ' x ' + ldeDocument.height;
 
     var sliderRange = document.getElementById("sliderRange");
-    sliderRange.value = initialZoomfactor*100;
+    sliderRange.value = initialZoomfactor * 100;
     document.querySelector('.zoom-value').innerHTML = sliderRange.value + '%';
     sliderRange.oninput = function () {
         let zoomFactor = this.value / 100;
         document.querySelector('.zoom-value').innerHTML = this.value + '%';
         canvas.setDimensions({ width: ldeDocument.width * zoomFactor, height: ldeDocument.height * zoomFactor });
         canvas.setZoom(zoomFactor);
+        updateOutOfCanvasView(canvas);
     }
 
     initAligningGuidelines(canvas);
     canvas.on({
         'selection:updated': onElementSelect,
         'selection:created': onElementSelect,
-        'selection:cleared': onElementDeselect
+        'selection:cleared': onElementDeselect,
+        'object:moving': onElementTransform,
+        'object:moved': onElementTransform,
+        'object:rotating': onElementTransform,
+        'object:scaling': onElementTransform,
+        'object:removed': onElementTransform,
+        'object:added': onElementTransform,
+        'object:modifying': onElementTransform,
+        'object:resizing': onElementTransform
     });
 
     function onElementSelect(e) {
         updateToolbarOnElementSelect(e, canvas);
+        updateOutOfCanvasView(canvas);
+    }
+
+    function onElementDeselect(e) {
+        document.querySelectorAll('.entity-tools').forEach(function (el) {
+            el.style.display = 'none';
+        });
+        document.querySelector('.change-layers-separator').style.display = 'none';
+        document.querySelector('.clone-trash-tools-separator').style.display = 'none';
+        document.querySelector('.redo-undo-separator').style.display = 'none';
+        let trashBtn = document.getElementsByClassName("trash-btn")[0];
+        trashBtn.parentNode.style.display = 'none';
+        let changelayerBtn = document.getElementsByClassName("change-layer-btns")[0];
+        changelayerBtn.style.display = 'none';
+        let alignBtn = document.getElementsByClassName("align-btns")[0];
+        alignBtn.style.display = 'none';
+        updateOutOfCanvasView(canvas);
+    }
+
+    function onElementTransform(e) {
+        //console.log(e);
+        updateOutOfCanvasView(canvas);
     }
 
     // Set background image
