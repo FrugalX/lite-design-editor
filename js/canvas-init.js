@@ -50,6 +50,7 @@ function addSnapLines(canvas) {
 
 // load custom fonts based on imported fabric js file
 async function loadJsonFonts(json) {
+    console.log(json);
     json.objects.forEach((obj) => {
         if (obj.type === 'textbox') {
             if (!fontList.includes(obj.fontFamily)) {
@@ -111,6 +112,8 @@ export async function renderFabricJson(canvas, json) {
             canvas.backgroundGradient = json.backgroundGradient;
             canvas.backgroundColor = grad.toLive(canvas.contextContainer);
         }
+        canvas.setDimensions({ width: json.width * initialZoomfactor, height: json.height * initialZoomfactor });
+        canvas.setZoom(initialZoomfactor);
         canvas.renderAll();
     });
 }
@@ -252,6 +255,7 @@ export default function configCanvas(canvas, container, config, callback) {
     // Export
     let exportBtn = document.getElementById("export-btn");
     exportBtn.onclick = function () {
+        const zoomFactor = canvas.getZoom();
         canvas.setDimensions({ width: ldeDocument.width, height: ldeDocument.height });
         canvas.setZoom(1.0);
         canvas.renderAll();
@@ -262,6 +266,9 @@ export default function configCanvas(canvas, container, config, callback) {
         // Save the JSON string to a file
         var blob = new Blob([data], { type: 'application/json' });
         saveAs(blob, 'lde.json');
+        canvas.setDimensions({ width: ldeDocument.width*zoomFactor, height: ldeDocument.height*zoomFactor });
+        canvas.setZoom(zoomFactor);
+        canvas.renderAll();
     }
 
     // Load google fonts

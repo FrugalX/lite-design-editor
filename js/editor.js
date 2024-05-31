@@ -27,7 +27,7 @@ export default function editor(containerId, config, callback) {
         <div class="zoom-value">100%</div>
         </div>
         `        
-        + '<div class="sliderContainer" style="float:right;">'       
+        + '<div class="sliderContainer" style="float:right; margin-top:-8px;">'       
         + '<input type="range" min="5" max="100" value="100" class="slider" id="sliderRange">'
         + '</div>'
 
@@ -105,10 +105,10 @@ export default function editor(containerId, config, callback) {
                 elemI.onclick = function (e) {
                     let index = e.target.getAttribute('data-gradient');
                     const clone = structuredClone(bgGradients[index].fabric);
-                    clone.coords.x1 = bgGradients[index].fabric.coords.x1 * canvas.width;
-                    clone.coords.x2 = bgGradients[index].fabric.coords.x2 * canvas.width;
-                    clone.coords.y1 = bgGradients[index].fabric.coords.y1 * canvas.height;
-                    clone.coords.y2 = bgGradients[index].fabric.coords.y2 * canvas.height;
+                    clone.coords.x1 = bgGradients[index].fabric.coords.x1 * canvas.width / canvas.getZoom();
+                    clone.coords.x2 = bgGradients[index].fabric.coords.x2 * canvas.width / canvas.getZoom();
+                    clone.coords.y1 = bgGradients[index].fabric.coords.y1 * canvas.height / canvas.getZoom();
+                    clone.coords.y2 = bgGradients[index].fabric.coords.y2 * canvas.height / canvas.getZoom();
                     var grad = new fabric.Gradient(clone);
                     canvas.backgroundGradient = clone;
                     canvas.backgroundColor = grad.toLive(canvas.contextContainer);

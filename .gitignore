@@ -6,3 +6,8 @@
 /js/pop-toolbox.js
 /js/pop-image.js
 /js/pop-shapes.js
+/js/pop-arrows.js
+/js/pop-poly.js
+/js/pop-freeform.js
+/components/*
+/css/pop.css
